@@ -54,9 +54,8 @@
     data: () => ({ 
       drawer: null,
       items: [
-          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Photos', icon: 'mdi-image' },
-          { title: 'About', icon: 'mdi-help-box' },
+          { title: 'Traductions', icon: 'mdi-translate' },
+          { title: 'À Propos', icon: 'mdi-information' },
         ],
       }),
   }
