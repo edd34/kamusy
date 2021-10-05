@@ -4,12 +4,11 @@
       <v-row align="center" no-gutters style="height: 150px;">
         <v-col>
           <v-select
-            v-model="select"
-            :items="items"
-            item-text="state"
-            item-value="abbr"
+            v-model="language_src"
+            :items="this.list_language"
+            item-text="name"
+            item-value="id"
             label="Select"
-            return-object
             single-line
           ></v-select>
         </v-col>
@@ -22,12 +21,11 @@
 
         <v-col>
           <v-select
-            v-model="select"
-            :items="items"
-            item-text="state"
-            item-value="abbr"
+            v-model="language_dst"
+            :items="this.list_language"
+            item-text="name"
+            item-value="id"
             label="Select"
-            return-object
             single-line
           ></v-select>
         </v-col>
@@ -36,58 +34,23 @@
 
     <!-- Input source language -->
     <v-container class="grey lighten-5 mb-6">
-      <v-autocomplete
-        v-model="model"
-        :items="items"
-        :loading="isLoading"
-        :search-input.sync="search"
-        chips
-        clearable
-        hide-details
-        hide-selected
-        item-text="name"
-        item-value="symbol"
-        label="Search for a coin..."
-        solo
-      >
-        <template v-slot:no-data>
-          <v-list-item>
-            <v-list-item-title>
-              Search for your favorite
-              <strong>Cryptocurrency</strong>
-            </v-list-item-title>
-          </v-list-item>
-        </template>
-        <template v-slot:selection="{ attr, on, item, selected }">
-          <v-chip
-            v-bind="attr"
-            :input-value="selected"
-            color="blue-grey"
-            class="white--text"
-            v-on="on"
-          >
-            <v-icon left>
-              mdi-bitcoin
-            </v-icon>
-            <span v-text="item.name"></span>
-          </v-chip>
-        </template>
-        <template v-slot:item="{ item }">
-          <v-list-item-avatar
-            color="indigo"
-            class="text-h5 font-weight-light white--text"
-          >
-            {{ item.name.charAt(0) }}
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.name"></v-list-item-title>
-            <v-list-item-subtitle v-text="item.symbol"></v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-icon>mdi-bitcoin</v-icon>
-          </v-list-item-action>
-        </template>
-      </v-autocomplete>
+      <v-card-text>
+        <v-autocomplete
+          v-model="model"
+          :items="entries"
+          v-on:blur="update_translated_word()"
+          :loading="isLoading"
+          :search-input.sync="search"
+          color="blue"
+          hide-no-data
+          item-text="word_source_name"
+          item-value="id"
+          label="Public APIs"
+          placeholder="Start typing to Search"
+          prepend-icon="mdi-database-search"
+          return-object
+        ></v-autocomplete>
+      </v-card-text>
     </v-container>
     <!-- Display translation -->
     <v-container grey lighten-5 mb-6>
@@ -96,7 +59,7 @@
         filled
         label="Label"
         auto-grow
-        value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+        :value="translation_result"
         readonly
       ></v-textarea>
     </v-container>
@@ -116,43 +79,79 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'Translation',
+  computed: {
+    ...mapState({
+      // list_translations: (state) => state.store_translation.listTranslations,
+      // list_word: (state) => state.store_word.listWords,
+      list_language: (state) => state.store_language.listLanguages,
+    }),
+    fields() {
+      if (!this.model) return []
+
+      return Object.keys(this.model).map((key) => {
+        return {
+          key,
+          value: this.model[key] || 'n/a',
+        }
+      })
+    },
+    items() {
+      return this.entries
+      // return this.entries.map((entry) => {
+      //   const Description =
+      //     entry.Description.length > this.descriptionLimit
+      //       ? entry.Description.slice(0, this.descriptionLimit) + '...'
+      //       : entry.Description
+
+      //   return Object.assign({}, entry, { Description })
+    },
+  },
   data() {
     return {
-      alignments: ['start', 'center', 'end'],
       isLoading: false,
-      items: [],
       model: null,
-      search: null,
+      translation_result: '',
       tab: null,
-      select: { state: 'Florida', abbr: 'FL' },
-      items: [
-        { state: 'Florida', abbr: 'FL' },
-        { state: 'Georgia', abbr: 'GA' },
-        { state: 'Nebraska', abbr: 'NE' },
-        { state: 'California', abbr: 'CA' },
-        { state: 'New York', abbr: 'NY' },
-      ],
+      language_src: 1,
+      language_dst: 2,
+      descriptionLimit: 60,
+      entries: [],
+      search: null,
     }
   },
-  components: {},
-  watch: {
-    model(val) {
-      if (val != null) this.tab = 0
-      else this.tab = null
+  methods: {
+    update_translated_word() {
+      this.translation_result = this.entries[0].word_destination_name
     },
+  },
+  watch: {
     search(val) {
       // Items have already been loaded
-      if (this.items.length > 0) return
+      // if (this.items.length > 0) return
+
+      // Items have already been requested
+      if (this.isLoading) return
 
       this.isLoading = true
 
       // Lazily load input items
-      fetch('https://api.coingecko.com/api/v3/coins/list')
-        .then((res) => res.clone().json())
+      // fetch('https://api.publicapis.org/entries')
+      fetch(
+        'http://localhost:8000/translations/' +
+          val +
+          '/' +
+          this.language_src +
+          '/' +
+          this.language_dst +
+          '/'
+      )
+        .then((res) => res.json())
         .then((res) => {
-          this.items = res
+          this.entries = res
         })
         .catch((err) => {
           console.log(err)
