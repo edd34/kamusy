@@ -7,10 +7,10 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6">
-            Application
+            Kamusy
           </v-list-item-title>
           <v-list-item-subtitle>
-            subtext
+            Le dictionnaire mahorais
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -41,7 +41,7 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Kamusy</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -53,7 +53,7 @@
 <script>
   export default {
     data: () => ({ 
-      drawer: null,
+      drawer: false,
       items: [
           { title: 'Traductions', icon: 'mdi-translate', to: '/' },
           { title: 'À Propos', icon: 'mdi-information', to: '/about' },
