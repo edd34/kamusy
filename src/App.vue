@@ -1,9 +1,6 @@
 <template>
   <v-app id="inspire">
-      <v-navigation-drawer 
-      v-model="drawer"
-      app
-      >
+    <v-navigation-drawer v-model="drawer" app>
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6">
@@ -17,16 +14,8 @@
 
       <v-divider></v-divider>
 
-      <v-list
-        dense
-        nav
-      >
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          :to="item.to"
-          link
-        >
+      <v-list dense nav>
+        <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -51,13 +40,18 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({ 
-      drawer: false,
-      items: [
-          { title: 'Traductions', icon: 'mdi-translate', to: '/' },
-          { title: 'À Propos', icon: 'mdi-information', to: '/about' },
-        ],
-      }),
-  }
+export default {
+  data: () => ({
+    drawer: false,
+    items: [
+      { title: 'Traductions', icon: 'mdi-translate', to: '/' },
+      { title: 'À Propos', icon: 'mdi-information', to: '/about' },
+    ],
+  }),
+  mounted() {
+    // this.$store.dispatch("store_translation/getListTranslations");
+    // this.$store.dispatch("store_word/getListWords");
+    this.$store.dispatch('store_language/getListLanguages')
+  },
+}
 </script>
