@@ -61,6 +61,7 @@
         filled
         label="Mot traduit"
         auto-grow
+        row-height="10"
         :value="translation_result"
         readonly
       ></v-textarea>
@@ -68,11 +69,11 @@
 
     <!-- Display description -->
     <!-- TODO : implement description -->
-    <!-- <v-container fluid>
+    <!-- <v-container mb-6>
       <v-textarea
         name="input-7-1"
         filled
-        label="Label"
+        label="Définition"
         auto-grow
         value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
       ></v-textarea>
