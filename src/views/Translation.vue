@@ -43,6 +43,8 @@
           :search-input.sync="search"
           color="blue"
           hide-no-data
+          hide-selected
+          clearable
           item-text="word_source_name"
           item-value="id"
           label="Public APIs"
@@ -89,25 +91,10 @@ export default {
       // list_word: (state) => state.store_word.listWords,
       list_language: (state) => state.store_language.listLanguages,
     }),
-    fields() {
-      if (!this.model) return []
-
-      return Object.keys(this.model).map((key) => {
-        return {
-          key,
-          value: this.model[key] || 'n/a',
-        }
-      })
-    },
     items() {
       return this.entries
-      // return this.entries.map((entry) => {
-      //   const Description =
-      //     entry.Description.length > this.descriptionLimit
-      //       ? entry.Description.slice(0, this.descriptionLimit) + '...'
-      //       : entry.Description
-
-      //   return Object.assign({}, entry, { Description })
+        .filter((entry) => entry.language_destination == this.language_dst)
+        .filter((entry) => entry.language_source == this.language_src)
     },
   },
   data() {
@@ -125,6 +112,11 @@ export default {
   },
   methods: {
     update_translated_word() {
+      if (this.model == '' || this.model == null) {
+        this.translation_result == ''
+        entries = []
+        return
+      }
       this.translation_result = this.entries[0].word_destination_name
     },
   },
@@ -132,6 +124,8 @@ export default {
     search(val) {
       // Items have already been loaded
       // if (this.items.length > 0) return
+      this.translation_result = ''
+      if (val === null) return
 
       // Items have already been requested
       if (this.isLoading) return
