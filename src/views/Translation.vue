@@ -47,8 +47,8 @@
           clearable
           item-text="word_source_name"
           item-value="id"
-          label="Public APIs"
-          placeholder="Start typing to Search"
+          label="Traduction"
+          placeholder="Commencez à taper pour rechercher"
           prepend-icon="mdi-database-search"
           return-object
         ></v-autocomplete>
@@ -59,7 +59,7 @@
       <v-textarea
         name="input-7-1"
         filled
-        label="Label"
+        label="Mot traduit"
         auto-grow
         :value="translation_result"
         readonly
@@ -114,7 +114,7 @@ export default {
     update_translated_word() {
       if (this.model == '' || this.model == null) {
         this.translation_result == ''
-        entries = []
+        this.entries = []
         return
       }
       this.translation_result = this.entries[0].word_destination_name
