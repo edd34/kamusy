@@ -116,8 +116,7 @@ export default {
         this.translation_result == ''
         this.entries = []
         return
-      }
-      this.translation_result = this.entries[0].word_destination_name
+      } else this.translation_result = this.entries[0].word_destination_name
     },
   },
   watch: {
