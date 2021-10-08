@@ -103,7 +103,6 @@ export default {
       isLoading: false,
       model: null,
       translation_result: '',
-      tab: null,
       language_src: 2,
       language_dst: 1,
       descriptionLimit: 60,
