@@ -8,13 +8,13 @@
             :items="this.list_language"
             item-text="name"
             item-value="id"
-            label="Select"
+            label="Choisissez"
             single-line
           ></v-select>
         </v-col>
 
         <v-col align="center"
-          ><v-btn icon>
+          ><v-btn icon @click="swapLanguage">
             <v-icon>mdi-swap-horizontal</v-icon>
           </v-btn>
         </v-col>
@@ -25,7 +25,7 @@
             :items="this.list_language"
             item-text="name"
             item-value="id"
-            label="Select"
+            label="Choisissez"
             single-line
           ></v-select>
         </v-col>
@@ -104,14 +104,19 @@ export default {
       model: null,
       translation_result: '',
       tab: null,
-      language_src: 1,
-      language_dst: 2,
+      language_src: 2,
+      language_dst: 1,
       descriptionLimit: 60,
       entries: [],
       search: null,
     }
   },
   methods: {
+    swapLanguage() {
+      const tmp = this.language_src
+      this.language_src = this.language_dst
+      this.language_dst = tmp
+    },
     update_translated_word() {
       if (this.model == '' || this.model == null) {
         this.translation_result == ''
