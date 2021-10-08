@@ -6,6 +6,7 @@
           <v-select
             v-model="language_src"
             :items="this.list_language"
+            @change="selectSrcLanguage"
             item-text="name"
             item-value="id"
             label="Choisissez"
@@ -23,6 +24,7 @@
           <v-select
             v-model="language_dst"
             :items="this.list_language"
+            @change="selectDstLanguage"
             item-text="name"
             item-value="id"
             label="Choisissez"
@@ -111,6 +113,16 @@ export default {
     }
   },
   methods: {
+    selectSrcLanguage() {
+      if (this.language_src == this.language_dst) {
+        this.language_dst = null
+      }
+    },
+    selectDstLanguage() {
+      if (this.language_src == this.language_dst) {
+        this.language_src = null
+      }
+    },
     swapLanguage() {
       const tmp = this.language_src
       this.language_src = this.language_dst
