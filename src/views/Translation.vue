@@ -40,7 +40,7 @@
         <v-autocomplete
           v-model="model"
           :items="entries"
-          v-on:blur="update_translated_word()"
+          @blur="update_translated_word()"
           :loading="isLoading"
           :search-input.sync="search"
           color="blue"
@@ -150,8 +150,10 @@ export default {
 
       // Lazily load input items
       // fetch('https://api.publicapis.org/entries')
+      console.log(process.env.VUE_APP_API_URL)
       fetch(
-        'http://localhost:8000/translations/' +
+        process.env.VUE_APP_API_URL +
+          '/translations/' +
           val +
           '/' +
           this.language_src +
