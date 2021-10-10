@@ -40,14 +40,14 @@
         <v-autocomplete
           v-model="model"
           :items="entries"
-          @blur="update_translated_word()"
+          @blur="get_translated_word()"
           :loading="isLoading"
           :search-input.sync="search"
           color="blue"
           hide-no-data
           hide-selected
           clearable
-          item-text="word_source_name"
+          item-text="name"
           item-value="id"
           label="Traduction"
           placeholder="Commencez à taper pour rechercher"
@@ -64,7 +64,7 @@
         label="Mot traduit"
         auto-grow
         row-height="10"
-        :value="translation_result"
+        :value="result_entries"
         readonly
       ></v-textarea>
     </v-container>
@@ -96,8 +96,27 @@ export default {
     }),
     items() {
       return this.entries
-        .filter((entry) => entry.language_destination == this.language_dst)
-        .filter((entry) => entry.language_source == this.language_src)
+      //.filter((entry) => entry.language_destination == this.language_dst)
+      //.filter((entry) => entry.language_source == this.language_src)
+    },
+    result_entries() {
+      // const tmp_res = this.translation_result.reduce((result, filter) => {
+      //     result[filter.name] = filter.value;
+      //   return result
+      // },{}))
+      if (this.translation_result) {
+        return this.translation_result
+          .map(
+            (currentValue, index) =>
+              (index + 1).toString() +
+              '. ' +
+              currentValue.word_destination_name +
+              '\n'
+          )
+          .join('')
+      } else {
+        return ''
+      }
     },
   },
   data() {
@@ -128,12 +147,32 @@ export default {
       this.language_src = this.language_dst
       this.language_dst = tmp
     },
-    update_translated_word() {
+    get_translated_word() {
       if (this.model == '' || this.model == null) {
         this.translation_result == ''
         this.entries = []
         return
-      } else this.translation_result = this.entries[0].word_destination_name
+      } else {
+        fetch(
+          process.env.VUE_APP_API_URL +
+            '/get-translation/' +
+            this.model.id +
+            '/' +
+            this.language_src +
+            '/' +
+            this.language_dst +
+            '/'
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res)
+            this.translation_result = res
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+          .finally(() => (this.isLoading = false))
+      }
     },
   },
   watch: {
@@ -150,15 +189,12 @@ export default {
 
       // Lazily load input items
       // fetch('https://api.publicapis.org/entries')
-      console.log(process.env.VUE_APP_API_URL)
       fetch(
         process.env.VUE_APP_API_URL +
-          '/translations/' +
+          '/find-words/' +
           val +
           '/' +
           this.language_src +
-          '/' +
-          this.language_dst +
           '/'
       )
         .then((res) => res.json())
