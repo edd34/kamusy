@@ -165,7 +165,6 @@ export default {
         )
           .then((res) => res.json())
           .then((res) => {
-            console.log(res)
             this.translation_result = res
           })
           .catch((err) => {
