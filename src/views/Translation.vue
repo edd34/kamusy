@@ -192,7 +192,7 @@ export default {
       fetch(
         process.env.VUE_APP_API_URL +
           '/find-words/' +
-          val +
+          val.toLowerCase() +
           '/' +
           this.language_src +
           '/'
