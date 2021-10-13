@@ -11,7 +11,7 @@
       fonctionnalités sont à venir.
     </p>
     <p>
-      L'application a été crée par Eddine OMAR. N'hésitez pa à envoyer un mail
+      L'application a été crée par Eddine OMAR. N'hésitez pas à envoyer un mail
       pour me faire part de vos remarques à
       <a
         href="mailto:eddine.omar@mae-solutions.yt?subject=À propos de Kamusy&cc=eddine.farid@hotmail.fr"
