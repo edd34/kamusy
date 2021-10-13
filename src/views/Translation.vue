@@ -179,7 +179,7 @@ export default {
       // Items have already been loaded
       // if (this.items.length > 0) return
       this.translation_result = ''
-      if (val === null) return
+      if (val === null || val == '') return
 
       // Items have already been requested
       if (this.isLoading) return
