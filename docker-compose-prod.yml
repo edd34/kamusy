@@ -3,11 +3,11 @@ version: '3.3'
 services:
   vue-app:
     build: .
-    command: http-server dist/ -p 8000
+    command: http-server dist/ -p 8080
     volumes:
       - .:/app
     ports:
-      - '8000:8000'
+      - '8080:8080'
     networks:
       - backend-net
 
