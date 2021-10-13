@@ -2,22 +2,21 @@
   <div class="about pa-6">
     <h1>À propos de Kamusy</h1>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-      <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-      <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      Kamusy signifie dictionnaire en mahorais et en swahili. L'objectif de ce
+      projet est de permettre d'augmenter l'exposition des langues régionales de
+      Mayotte.
+    </p>
+    <p>
+      L'application est toujours en cours de développement. De nouvelles
+      fonctionnalités sont à venir.
+    </p>
+    <p>
+      L'application a été crée par Eddine OMAR. N'hésitez pa à envoyer un mail
+      pour me faire part de vos remarques à
+      <a
+        href="mailto:eddine.omar@mae-solutions.yt?subject=À propos de Kamusy&cc=eddine.farid@hotmail.fr"
+        >eddine.omar@mae-solutions.yt</a
+      >
+    </p>
   </div>
 </template>
