@@ -3,8 +3,9 @@
     <h1>À propos de Kamusy</h1>
     <p>
       Kamusy signifie dictionnaire en mahorais et en swahili. L'objectif de ce
-      projet est de permettre d'augmenter l'exposition des langues régionales de
-      Mayotte.
+      projet est de contribuer au développement des langues régionales de
+      Mayotte en fournissant une lexique en ligne. À noter que Kamusy est le
+      seul projet incluant le kibushi.
     </p>
     <p>
       L'application est toujours en cours de développement. De nouvelles
