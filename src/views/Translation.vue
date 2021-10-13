@@ -65,6 +65,7 @@
         auto-grow
         row-height="10"
         :value="result_entries"
+        :loading="isWordLoading"
         readonly
       ></v-textarea>
     </v-container>
@@ -122,6 +123,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      isWordLoading: false,
       model: null,
       translation_result: '',
       language_src: 2,
@@ -153,6 +155,7 @@ export default {
         this.entries = []
         return
       } else {
+        this.isWordLoading = true
         fetch(
           process.env.VUE_APP_API_URL +
             '/get-translation/' +
@@ -170,7 +173,7 @@ export default {
           .catch((err) => {
             console.log(err)
           })
-          .finally(() => (this.isLoading = false))
+          .finally(() => (this.isWordLoading = false))
       }
     },
   },
