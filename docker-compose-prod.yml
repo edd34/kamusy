@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  vue-app:
+    build: .
+    command: yarn build && http-server dist/ -p 80
+    volumes:
+      - .:/app
+    ports:
+      - '80:80'
+    networks:
+      - backend-net
+
+networks:
+  backend-net:
+    external: true
