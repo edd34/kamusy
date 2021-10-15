@@ -3,12 +3,6 @@ version: '3.3'
 services:
   vue-app:
     build: .
-    # tty: true
-    # environment:
-    #   - POSTGRES_DB=${POSTGRES_DB}
-    #   - POSTGRES_USER=${POSTGRES_USER}
-    #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    #   - DJANGO_ENV=dev
     command: yarn serve
     volumes:
       - .:/app
