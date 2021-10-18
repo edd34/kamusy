@@ -13,8 +13,8 @@
     <p>
       N'hésitez pas à envoyer un mail pour me faire part de vos remarques à
       <a
-        href="mailto:eddine.omar@mae-solutions.yt?subject=À propos de Kamusy&cc=eddine.farid@hotmail.fr"
-        >eddine.omar@mae-solutions.yt</a
+        href="mailto:eddine.farid@hotmail.fr?subject=À propos de Kamusy"
+        >eddine.farid@hotmail.fr</a
       >
     </p>
   </div>
