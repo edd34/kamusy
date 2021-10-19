@@ -28,9 +28,45 @@
     </v-navigation-drawer>
 
     <v-app-bar app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-toolbar-title >Kamusy</v-toolbar-title>
+      <v-row>
+        
+        <v-col align="end">
+           <div >
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon>mdi-account</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in items_account_menu"
+          :key="index"
+          :to="item.to"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </div>
+          
+          </v-col>
+      </v-row>
+      
 
-      <v-toolbar-title>Kamusy</v-toolbar-title>
+      
+      
     </v-app-bar>
 
     <v-main>
@@ -46,6 +82,11 @@ export default {
     items: [
       { title: 'Traductions', icon: 'mdi-translate', to: '/' },
       { title: 'À Propos', icon: 'mdi-information', to: '/about' },
+    ],
+    items_account_menu: [
+      { title: 'Se connecter', icon: 'mdi-login', to: '/login' },
+      { title: 'Se déconnecter', icon: 'mdi-logout', to: '/login' },
+      { title: 'S\'inscrire', icon: 'mdi-account-add', to: '/login' },
     ],
   }),
   mounted() {
