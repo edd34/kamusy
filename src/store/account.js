@@ -1,0 +1,82 @@
+import { instance } from '../service/axios.js'
+import { decode_jwt } from '../service/jwt.js'
+import { fromUnixTime } from 'date-fns'
+
+export default {
+  namespaced: true,
+  state: {
+    token: {
+      access: null,
+      refresh: null,
+    },
+    is_connected: false,
+  },
+  mutations: {
+    setToken: (state, token) => {
+      state.token.access = token.access
+      state.token.refresh = token.refresh
+      localStorage.token_access = token.access
+      localStorage.token_refresh = token.refresh
+      state.is_connected = true
+    },
+    loadToken: (state) => {
+      if (localStorage.token_access && localStorage.token_refresh) {
+        state.token.access = localStorage.token_access
+        state.token.refresh = localStorage.token_refresh
+        state.is_connected = true
+      } else {
+        state.token.access = null
+        state.token.refresh = null
+        state.is_connected = false
+      }
+    },
+    resetToken: (state) => {
+      state.token.access = null
+      state.token.refresh = null
+      localStorage.removeItem('token_access')
+      localStorage.removeItem('token_refresh')
+      state.is_connected = false
+    },
+  },
+  actions: {
+    async login_query_token({ commit }, payload) {
+      try {
+        const token = await instance.post('/api/token/', {
+          username: payload.username,
+          password: payload.password,
+        })
+        console.log(token.data)
+        await commit('setToken', token.data)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async disconnect({ commit }) {
+      await commit('resetToken')
+    },
+    async load_token({ commit }) {
+      await commit('loadToken')
+    },
+  },
+  getters: {
+    exp: (state) => {
+      const result = decode_jwt(state.token.access)
+      return result.exp
+    },
+    exp_str: (state) => {
+      const result = decode_jwt(state.token.access)
+      const exp_date = fromUnixTime(result.exp)
+      return exp_date.toString()
+    },
+    refresh_exp: (state) => {
+      const result = decode_jwt(state.token.refresh)
+      return result.exp
+    },
+    refresh_exp_str: (state) => {
+      const result = decode_jwt(state.token.refresh)
+      const exp_date = fromUnixTime(result.exp)
+      return exp_date
+    },
+    is_connected: (state) => state.is_connected,
+  },
+}

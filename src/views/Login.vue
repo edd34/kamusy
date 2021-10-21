@@ -39,13 +39,11 @@
     show1: false,
     password: '',
     }),
-
     methods: {
       submit () {
-        this.$v.$touch()
+        this.$store.dispatch("store_account/login_query_token", { username: this.name, password:this.password });
       },
       clear () {
-        this.$v.$reset()
         this.name = ''
         this.password = ''
       },
