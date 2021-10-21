@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container class="grey lighten-5 mb-6">
-      <v-row align="center" no-gutters style="height: 150px;">
+      <v-row align="center" no-gutters style="height: 150px">
         <v-col>
           <v-select
             v-model="language_src"
@@ -85,38 +85,30 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
 export default {
-  name: 'Translation',
+  name: "Translation",
   computed: {
     ...mapState({
-      // list_translations: (state) => state.store_translation.listTranslations,
-      // list_word: (state) => state.store_word.listWords,
       list_language: (state) => state.store_language.listLanguages,
     }),
     items() {
-      return this.entries
-      //.filter((entry) => entry.language_destination == this.language_dst)
-      //.filter((entry) => entry.language_source == this.language_src)
+      return this.entries;
     },
     result_entries() {
-      // const tmp_res = this.translation_result.reduce((result, filter) => {
-      //     result[filter.name] = filter.value;
-      //   return result
-      // },{}))
       if (this.translation_result) {
         return this.translation_result
           .map(
             (currentValue, index) =>
               (index + 1).toString() +
-              '. ' +
+              ". " +
               currentValue.word_destination_name +
-              '\n'
+              "\n"
           )
-          .join('')
+          .join("");
       } else {
-        return ''
+        return "";
       }
     },
   },
@@ -125,55 +117,55 @@ export default {
       isLoading: false,
       isWordLoading: false,
       model: null,
-      translation_result: '',
+      translation_result: "",
       language_src: 2,
       language_dst: 1,
       descriptionLimit: 60,
       entries: [],
       search: null,
-    }
+    };
   },
   methods: {
     selectSrcLanguage() {
       if (this.language_src == this.language_dst) {
-        this.language_dst = null
+        this.language_dst = null;
       }
     },
     selectDstLanguage() {
       if (this.language_src == this.language_dst) {
-        this.language_src = null
+        this.language_src = null;
       }
     },
     swapLanguage() {
-      const tmp = this.language_src
-      this.language_src = this.language_dst
-      this.language_dst = tmp
+      const tmp = this.language_src;
+      this.language_src = this.language_dst;
+      this.language_dst = tmp;
     },
     get_translated_word() {
-      if (this.model == '' || this.model == null) {
-        this.translation_result == ''
-        this.entries = []
-        return
+      if (this.model == "" || this.model == null) {
+        this.translation_result == "";
+        this.entries = [];
+        return;
       } else {
-        this.isWordLoading = true
+        this.isWordLoading = true;
         fetch(
           process.env.VUE_APP_API_URL +
-            '/get-translation/' +
+            "/get-translation/" +
             this.model.id +
-            '/' +
+            "/" +
             this.language_src +
-            '/' +
+            "/" +
             this.language_dst +
-            '/'
+            "/"
         )
           .then((res) => res.json())
           .then((res) => {
-            this.translation_result = res
+            this.translation_result = res;
           })
           .catch((err) => {
-            console.log(err)
+            console.log(err);
           })
-          .finally(() => (this.isWordLoading = false))
+          .finally(() => (this.isWordLoading = false));
       }
     },
   },
@@ -181,33 +173,33 @@ export default {
     search(val) {
       // Items have already been loaded
       // if (this.items.length > 0) return
-      this.translation_result = ''
-      if (val === null || val == '') return
+      this.translation_result = "";
+      if (val === null || val == "") return;
 
       // Items have already been requested
-      if (this.isLoading) return
+      if (this.isLoading) return;
 
-      this.isLoading = true
+      this.isLoading = true;
 
       // Lazily load input items
       // fetch('https://api.publicapis.org/entries')
       fetch(
         process.env.VUE_APP_API_URL +
-          '/find-words/' +
+          "/find-words/" +
           val.toLowerCase() +
-          '/' +
+          "/" +
           this.language_src +
-          '/'
+          "/"
       )
         .then((res) => res.json())
         .then((res) => {
-          this.entries = res
+          this.entries = res;
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
         })
-        .finally(() => (this.isLoading = false))
+        .finally(() => (this.isLoading = false));
     },
   },
-}
+};
 </script>
