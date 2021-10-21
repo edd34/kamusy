@@ -94,6 +94,11 @@ export default {
     drawer: false,
     items: [
       { title: "Traductions", icon: "mdi-translate", to: "/" },
+      {
+        title: "Ajouter traduction",
+        icon: "mdi-pen-plus",
+        to: "/add-translation",
+      },
       { title: "À Propos", icon: "mdi-information", to: "/about" },
     ],
     items_account_menu_disconnected: [

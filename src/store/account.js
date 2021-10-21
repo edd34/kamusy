@@ -78,5 +78,6 @@ export default {
       return exp_date
     },
     is_connected: (state) => state.is_connected,
+    access_token: (state) => state.token.access,
   },
 }

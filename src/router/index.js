@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Translation from '../views/Translation.vue'
+import AddTranslation from '../views/AddTranslation.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 
@@ -11,6 +12,11 @@ const routes = [
     path: '/',
     name: 'Translation',
     component: Translation,
+  },
+  {
+    path: '/add-translation',
+    name: 'AddTranslation',
+    component: AddTranslation,
   },
   {
     path: '/login',
