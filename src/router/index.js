@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Translation from '../views/Translation.vue'
 import Login from '../views/Login.vue'
+import Logout from '../views/Logout.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout,
   },
   {
     path: '/about',
