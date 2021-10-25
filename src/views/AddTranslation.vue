@@ -86,6 +86,15 @@
         >
       </v-row>
     </v-container>
+    <v-snackbar v-model="snackbar">
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -100,6 +109,7 @@ export default {
     ...mapGetters({
       is_connected: "store_account/is_connected",
       access_token: "store_account/access_token",
+      refresh_token: "store_account/refresh_token",
     }),
     ...mapState({
       list_language: (state) => state.store_language.listLanguages,
@@ -120,6 +130,8 @@ export default {
       descriptionLimit: 60,
       entries: [],
       search: null,
+      snackbar: false,
+      text: "",
     };
   },
   methods: {
@@ -139,24 +151,25 @@ export default {
       this.language_dst = tmp;
     },
     async add_translation() {
+      const data = {
+        language_source: this.language_src,
+        language_destination: this.language_dst,
+        word_source_name: this.word_source,
+        word_destination_name: this.word_destination,
+      };
+      const config = {
+        headers: {
+          Authorization: "Bearer " + this.access_token,
+        },
+      };
       try {
-        const data = {
-          language_source: this.language_src,
-          language_destination: this.language_dst,
-          word_source_name: this.word_source,
-          word_destination_name: this.word_destination,
-        };
-
-        const config = {
-          headers: {
-            Authorization: "Bearer " + this.access_token,
-          },
-        };
-        console.log(config);
         const res = await axios.post("/add-translation/", data, config);
+        this.snackbar = true;
+        this.text = "Mot correctement ajouté.";
       } catch (error) {
-        console.log(error);
-        this.$store.dispatch("store_account/disconnect");
+        await this.$store.dispatch("store_account/disconnect");
+        this.snackbar = true;
+        this.text = "Vous êtes hors ligne.";
       }
     },
     clear() {
