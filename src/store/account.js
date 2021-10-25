@@ -45,10 +45,23 @@ export default {
           username: payload.username,
           password: payload.password,
         })
-        console.log(token.data)
+        await commit('setToken', token.data)
+        return true
+      } catch (error) {
+        await commit('resetToken')
+      }
+      return false
+    },
+    async login_query_refresh({ commit }, payload) {
+      try {
+        const token = await instance.post('/api/token/refresh', {
+          refresh: state.token.refresh,
+        })
         await commit('setToken', token.data)
       } catch (error) {
-        console.log(error)
+        if (error.response.status) {
+          await commit('resetToken')
+        }
       }
     },
     async disconnect({ commit }) {
@@ -79,5 +92,6 @@ export default {
     },
     is_connected: (state) => state.is_connected,
     access_token: (state) => state.token.access,
+    refresh_token: (state) => state.token.refresh,
   },
 }
