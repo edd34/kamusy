@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-banner v-model="v0" single-line transition="slide-y-transition">
+    <v-banner v-model="v0" two-line transition="slide-y-transition">
       Vous devez vous connecter pour ajouter un mot.
       <template v-slot:actions="{ dismiss }">
         <v-btn text color="primary" @click="dismiss"> Effacer </v-btn>
@@ -104,6 +104,7 @@ export default {
   },
   data() {
     return {
+      v0: true,
       isLoading: false,
       add_translation_loading: false,
       word_source: null,
