@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-banner v-model="v0" two-line transition="slide-y-transition">
+    <v-banner
+      v-model="v0"
+      two-line
+      transition="slide-y-transition"
+      vif
+      v-if="!is_connected"
+    >
       Vous devez vous connecter pour ajouter un mot.
       <template v-slot:actions="{ dismiss }">
         <v-btn text color="primary" @click="dismiss"> Effacer </v-btn>
