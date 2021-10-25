@@ -54,14 +54,12 @@ export default {
     },
     async login_query_refresh({ commit }, payload) {
       try {
-        const token = await instance.post('/api/token/refresh', {
+        const token = await instance.post('/api/token/refresh/', {
           refresh: state.token.refresh,
         })
         await commit('setToken', token.data)
       } catch (error) {
-        if (error.response.status) {
-          await commit('resetToken')
-        }
+        await commit('resetToken')
       }
     },
     async disconnect({ commit }) {
