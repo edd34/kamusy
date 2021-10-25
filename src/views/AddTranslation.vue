@@ -1,5 +1,11 @@
 <template>
   <div>
+    <v-banner v-model="v0" single-line transition="slide-y-transition">
+      Vous devez vous connecter pour ajouter un mot.
+      <template v-slot:actions="{ dismiss }">
+        <v-btn text color="primary" @click="dismiss"> Effacer </v-btn>
+      </template>
+    </v-banner>
     <v-container class="grey lighten-5 mb-6">
       <v-row align="center" no-gutters>
         <v-col>
