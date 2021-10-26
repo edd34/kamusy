@@ -42,7 +42,7 @@ export default {
     async login_query_token({ commit }, payload) {
       try {
         const token = await instance.post('/api/token/', {
-          username: payload.username,
+          email: payload.email,
           password: payload.password,
         })
         await commit('setToken', token.data)

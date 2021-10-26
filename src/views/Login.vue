@@ -11,7 +11,7 @@
         <v-text-field
           v-model="name"
           counter
-          label="Nom d'utilisateur"
+          label="Email"
           :disabled="is_connected"
           required
         ></v-text-field>
@@ -64,7 +64,7 @@ export default {
       const res = await this.$store.dispatch(
         "store_account/login_query_token",
         {
-          username: this.name,
+          email: this.name,
           password: this.password,
         }
       );
