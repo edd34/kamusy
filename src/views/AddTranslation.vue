@@ -12,7 +12,7 @@
         <v-btn text color="primary" @click="dismiss"> Effacer </v-btn>
       </template>
     </v-banner>
-    <v-container class="grey lighten-5 mb-6">
+    <v-container class="grey lighten-5">
       <v-row align="center" no-gutters>
         <v-col>
           <v-select

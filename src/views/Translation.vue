@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-container class="grey lighten-5 mb-6">
-      <v-row align="center" no-gutters style="height: 150px">
+    <v-container class="grey lighten-5">
+      <v-row align="center" no-gutters>
         <v-col>
           <v-select
             v-model="language_src"
@@ -35,7 +35,7 @@
     </v-container>
 
     <!-- Input source language -->
-    <v-container class="grey lighten-5 mb-6">
+    <v-container class="grey lighten-5">
       <v-card-text>
         <v-autocomplete
           v-model="model"
@@ -57,7 +57,7 @@
       </v-card-text>
     </v-container>
     <!-- Display translation -->
-    <v-container grey lighten-5 mb-6>
+    <v-container grey lighten-5>
       <v-textarea
         name="input-7-1"
         filled
