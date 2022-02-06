@@ -29,7 +29,7 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Kamusy</v-toolbar-title>
       <v-row>
-        <v-col align="end">
+        <v-col align="right">
           <div>
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
