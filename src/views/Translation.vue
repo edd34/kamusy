@@ -129,11 +129,25 @@ export default {
     selectSrcLanguage() {
       if (this.language_src == this.language_dst) {
         this.language_dst = null;
+      } else if (
+        (this.list_language[this.language_src - 1].name == "mahorais" &&
+          this.list_language[this.language_dst - 1].name == "kibushi") ||
+        (this.list_language[this.language_src - 1].name == "kibushi" &&
+          this.list_language[this.language_dst - 1].name == "mahorais")
+      ) {
+        this.language_src = null;
       }
     },
     selectDstLanguage() {
       if (this.language_src == this.language_dst) {
         this.language_src = null;
+      } else if (
+        (this.list_language[this.language_src - 1].name == "mahorais" &&
+          this.list_language[this.language_dst - 1].name == "kibushi") ||
+        (this.list_language[this.language_src - 1].name == "kibushi" &&
+          this.list_language[this.language_dst - 1].name == "mahorais")
+      ) {
+        this.language_dst = null;
       }
     },
     swapLanguage() {

@@ -14,9 +14,7 @@ export default {
     async getListLanguages({ commit }) {
       try {
         const newListLanguage = await instance.get('/languages/')
-        newListLanguage.data.map(
-          (item) => (item.complete_name = item.firstname + ' ' + item.lastname)
-        )
+        newListLanguage.data.sort((a, b) => a.id - b.id)
         await commit('updateListLanguage', newListLanguage.data)
       } catch (error) {
         console.log(error)
