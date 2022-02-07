@@ -67,13 +67,13 @@
       ></v-textarea>
 
       <v-row>
-        <v-col align="center">
+        <v-col class="col-6" align="center">
           <v-btn color="red" class="ma-2 white--text" @click="clear">
             Effacer
             <v-icon right dark> mdi-trash-can-outline </v-icon>
           </v-btn>
         </v-col>
-        <v-col align="center">
+        <v-col class="col-6" align="center">
           <v-btn
             :loading="add_translation_loading"
             :disabled="!is_connected"
