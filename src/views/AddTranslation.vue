@@ -65,14 +65,15 @@
         auto-grow
         row-height="10"
       ></v-textarea>
+
       <v-row>
-        <v-col>
+        <v-col align="center">
           <v-btn color="red" class="ma-2 white--text" @click="clear">
             Effacer
             <v-icon right dark> mdi-trash-can-outline </v-icon>
-          </v-btn></v-col
-        >
-        <v-col>
+          </v-btn>
+        </v-col>
+        <v-col align="center">
           <v-btn
             :loading="add_translation_loading"
             :disabled="!is_connected"
@@ -82,8 +83,8 @@
           >
             Ajouter
             <v-icon right dark> mdi-plus-circle-outline </v-icon>
-          </v-btn></v-col
-        >
+          </v-btn>
+        </v-col>
       </v-row>
     </v-container>
     <v-snackbar v-model="snackbar">
