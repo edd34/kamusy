@@ -35,26 +35,39 @@
     </v-container>
 
     <!-- Input source language -->
-    <v-container class="grey lighten-5">
-      <v-card-text>
-        <v-autocomplete
-          v-model="model"
-          :items="entries"
-          @blur="get_translated_word()"
-          :loading="isLoading"
-          :search-input.sync="search"
-          color="blue"
-          hide-no-data
-          hide-selected
-          clearable
-          item-text="name"
-          item-value="id"
-          label="Traduction"
-          placeholder="Commencez à taper pour rechercher"
-          prepend-icon="mdi-database-search"
-          return-object
-        ></v-autocomplete>
-      </v-card-text>
+    <v-container class="grey lighten-5 no-wrap">
+      <v-row align="center" no-gutters>
+        <v-col class="col-9">
+          <v-autocomplete
+            v-model="model"
+            :items="entries"
+            @blur="get_translated_word()"
+            :loading="isLoading"
+            :search-input.sync="search"
+            color="blue"
+            hide-no-data
+            hide-selected
+            clearable
+            item-text="name"
+            item-value="id"
+            label="Traduction"
+            placeholder="Commencez à taper pour rechercher"
+            prepend-icon="mdi-database-search"
+            return-object
+          ></v-autocomplete
+        ></v-col>
+        <v-col align="center" class="col-3">
+          <v-btn
+            align="center"
+            :loading="isWordLoading"
+            color="green"
+            class="ma-2 white--text"
+          >
+            Go
+            <v-icon right dark> mdi-auto-fix </v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-container>
     <!-- Display translation -->
     <v-container grey lighten-5>
@@ -86,12 +99,16 @@
 
 <script>
 import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Translation",
   computed: {
     ...mapState({
       list_language: (state) => state.store_language.listLanguages,
+    }),
+    ...mapGetters({
+      is_connected: "store_account/is_connected",
     }),
     items() {
       return this.entries;
@@ -157,7 +174,8 @@ export default {
     },
     get_translated_word() {
       if (this.model == "" || this.model == null) {
-        this.translation_result == "";
+        // not words typed inside traduction field
+        this.translation_result = "";
         this.entries = [];
         return;
       } else {
@@ -175,6 +193,9 @@ export default {
           .then((res) => res.json())
           .then((res) => {
             this.translation_result = res;
+            if (res.length == 0) {
+              // TODO translation do not exist
+            }
           })
           .catch((err) => {
             console.log(err);
