@@ -220,10 +220,12 @@ export default {
       // fetch('https://api.publicapis.org/entries')
       fetch(
         process.env.VUE_APP_API_URL +
-          "/find-words/" +
+          "/find-words-2/" +
           val.toLowerCase() +
           "/" +
           this.language_src +
+          "/" +
+          this.language_dst +
           "/"
       )
         .then((res) => res.json())
