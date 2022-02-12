@@ -62,6 +62,7 @@
             :loading="isWordLoading"
             color="green"
             class="ma-2 white--text"
+            @click="get_translated_word()"
           >
             Go
             <v-icon right dark> mdi-auto-fix </v-icon>
