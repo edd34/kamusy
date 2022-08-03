@@ -141,8 +141,19 @@
 <script>
 const SYNCABLE_KEYS = {
   backwards: { type: Boolean, default: false },
-  words: { type: Array, default: ["air", "bare", "dare", "summer", "scared"] },
-  size: { type: Number, default: 8 },
+  words: {
+    type: Array,
+    default: [
+      "jeje",
+      "kwaheri",
+      "marahaba",
+      "uhuru",
+      "uhafadhui",
+      "usoma",
+      "kamusy",
+    ],
+  },
+  size: { type: Number, default: 10 },
 };
 
 export default {
