@@ -2,17 +2,9 @@
   <div id="wrapper">
     <div class="container">
       <div class="row mt-3">
-        <div
-          id="wordsearch_grid"
-        >
-          <div
-            v-for="(rowV, row) in sizeInt"
-            :key="row-1"
-          >
-            <div
-              v-for="(colV, col) in sizeInt"
-              :key="`${row}_${col}`"
-            >
+        <div id="wordsearch_grid">
+          <div v-for="(rowV, row) in sizeInt" :key="row - 1">
+            <div v-for="(colV, col) in sizeInt" :key="`${row}_${col}`">
               <div
                 :class="letterTileClasses(col, row)"
                 :data-x="col"
@@ -24,20 +16,17 @@
                 @touchend="wordSelectUpdate"
                 @touchmove="wordSelectUpdate"
               >
-                <svg
-                  width="100%"
-                  height="100%"
-                  viewBox="0 0 18 18"
-                >
-                  <text
-                    x="50%"
-                    y="13"
-                    text-anchor="middle"
-                  >{{ gridVal(col, row) }}</text>
+                <svg width="100%" height="100%" viewBox="0 0 18 18">
+                  <text x="50%" y="13" text-anchor="middle">
+                    {{ gridVal(col, row) }}
+                  </text>
                 </svg>
               </div>
               <div
-                v-for="(wordLineData, wordLineIndex) in wordLinesForTile(col, row)"
+                v-for="(wordLineData, wordLineIndex) in wordLinesForTile(
+                  col,
+                  row
+                )"
                 :key="`${row}_${col}_${wordLineIndex}`"
                 :class="wordLineClasses(wordLineData)"
               />
@@ -46,60 +35,37 @@
         </div>
 
         <div class="col mb-5">
-          <h2>Words</h2>
+          <h2>Mots</h2>
           <div class="words">
             <span
               v-for="word in usedWords"
               :key="word"
               :class="wordListClasses(word)"
-            >{{ word }}</span>
+              >{{ word }}</span
+            >
           </div>
 
-          <h2 class="mt-4">
-            Timer
-          </h2>
-          <span>{{ displayTime }}</span>
+          <!-- <h2 class="mt-4">Timer</h2>
+          <span>{{ displayTime }}</span> -->
 
-          <h2 class="mt-4">
-            Game
-          </h2>
-          <div
-            class="btn btn-primary mb-2 d-block"
-            @click="rebuildGrid()"
-          >
-            New Game
-          </div>
-          <div
-            class="btn btn-primary mb-2 d-block"
-            @click="clearGameState()"
-          >
-            Restart this game
+          <h2 class="mt-4">Partie</h2>
+          <div class="btn btn-primary mb-2 d-block" @click="rebuildGrid()">
+            Nouvelle partie
           </div>
         </div>
       </div>
     </div>
 
-    <div
-      id="settings_modal"
-      class="modal fade"
-    >
-      <div
-        class="modal-dialog"
-        role="document"
-      >
+    <div id="settings_modal" class="modal fade">
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">
-              Settings
-            </h5>
+            <h5 class="modal-title">Settings</h5>
           </div>
           <div class="modal-body">
             <form>
               <div class="row">
-                <label
-                  for="words-settings"
-                  class="col-4"
-                >Words:</label>
+                <label for="words-settings" class="col-4">Words:</label>
 
                 <div class="form-group form-inline col-8 row">
                   <div
@@ -111,22 +77,16 @@
                       v-model.lazy="words[index]"
                       type="text"
                       class="form-control"
-                    >
+                    />
                     <div class="input-group-append">
-                      <div
-                        class="btn btn-danger"
-                        @click="removeWord(index)"
-                      >
+                      <div class="btn btn-danger" @click="removeWord(index)">
                         -
                       </div>
                     </div>
                   </div>
 
-                  <div class=" mb-2 col">
-                    <div
-                      class="btn btn-success btn-sm"
-                      @click="addWord()"
-                    >
+                  <div class="mb-2 col">
+                    <div class="btn btn-success btn-sm" @click="addWord()">
                       +
                     </div>
                   </div>
@@ -134,10 +94,7 @@
               </div>
 
               <div class="row">
-                <label
-                  for="size-settings"
-                  class="col-4"
-                >Size:</label>
+                <label for="size-settings" class="col-4">Size:</label>
                 <div class="col">
                   <input
                     id="size-settings"
@@ -145,22 +102,21 @@
                     type="number"
                     name="size-settings"
                     class="form-control-sm"
-                  >
+                  />
                 </div>
               </div>
 
               <div class="row">
-                <label
-                  class="col-4"
-                  for="backwards-settings"
-                >Allow backwards?</label>
+                <label class="col-4" for="backwards-settings"
+                  >Allow backwards?</label
+                >
                 <div class="col">
                   <input
                     id="backwards-settings"
                     v-model.lazy="backwards"
                     type="checkbox"
                     name="backwards-settings"
-                  >
+                  />
                 </div>
               </div>
             </form>
@@ -184,13 +140,13 @@
 
 <script>
 const SYNCABLE_KEYS = {
-  backwards : { type: Boolean, default: false } ,
-  words: { type: Array, default: ['air', 'bare', 'dare', 'summer', 'scared'] },
-  size: { type: Number, default: 8 }
-}
+  backwards: { type: Boolean, default: false },
+  words: { type: Array, default: ["air", "bare", "dare", "summer", "scared"] },
+  size: { type: Number, default: 8 },
+};
 
 export default {
-  name: 'Helper',
+  name: "Helper",
   data() {
     return {
       debugEnabled: false,
@@ -208,7 +164,7 @@ export default {
         end: undefined,
       },
       startTime: 0,
-      displayTime: ''
+      displayTime: "",
     };
   },
   computed: {
@@ -216,83 +172,89 @@ export default {
       return parseInt(this.size, 10);
     },
     guessedWord() {
-      return this.guess.map(l => this.gridVal(l.x, l.y)).join('');
+      return this.guess.map((l) => this.gridVal(l.x, l.y)).join("");
     },
   },
   watch: {
-    backwards: function() {
-      this.syncConfigToUrl()
+    backwards: function () {
+      this.syncConfigToUrl();
     },
-    words: function() {
-      this.syncConfigToUrl()
+    words: function () {
+      this.syncConfigToUrl();
     },
-    size: function() {
-      this.syncConfigToUrl()
-    }
+    size: function () {
+      this.syncConfigToUrl();
+    },
   },
   mounted() {
     this.syncConfigFromUrl();
     this.rebuildGrid();
-    setInterval(function() {
-      this.generateDisplayTime()
-    }.bind(this), 1000);
+    setInterval(
+      function () {
+        this.generateDisplayTime();
+      }.bind(this),
+      1000
+    );
   },
   methods: {
     syncConfigFromUrl() {
-      var searchParams = new URLSearchParams(window.location.search)
-      Object.keys(SYNCABLE_KEYS).forEach(key => {
-        var value
+      var searchParams = new URLSearchParams(window.location.search);
+      Object.keys(SYNCABLE_KEYS).forEach((key) => {
+        var value;
         if (SYNCABLE_KEYS[key].type === Array) {
-          value = searchParams.getAll(key)
+          value = searchParams.getAll(key);
           if (value.length === 0) {
-            value = SYNCABLE_KEYS[key].default
+            value = SYNCABLE_KEYS[key].default;
           }
         } else {
-          value = searchParams.get(key)
+          value = searchParams.get(key);
           if (value === null) {
-            value = SYNCABLE_KEYS[key].default
+            value = SYNCABLE_KEYS[key].default;
           }
-          value = new SYNCABLE_KEYS[key].type(value).valueOf()
+          value = new SYNCABLE_KEYS[key].type(value).valueOf();
         }
-        this[key] = value
-      })
+        this[key] = value;
+      });
     },
     syncConfigToUrl() {
-      var searchParams = new URLSearchParams(window.location.search)
-      Object.keys(SYNCABLE_KEYS).forEach(key => {
+      var searchParams = new URLSearchParams(window.location.search);
+      Object.keys(SYNCABLE_KEYS).forEach((key) => {
         searchParams.delete(key);
-        const value = this[key]
+        const value = this[key];
         if (SYNCABLE_KEYS[key].type === Array) {
           if (value != SYNCABLE_KEYS[key].default) {
-            value.forEach(valueItem => searchParams.append(key, valueItem))
+            value.forEach((valueItem) => searchParams.append(key, valueItem));
           }
         } else {
           if (value != SYNCABLE_KEYS[key].default) {
             searchParams.set(key, value);
           }
         }
-      })
-      var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
-      history.pushState(null, '', newRelativePathQuery);
+      });
+      var newRelativePathQuery =
+        window.location.pathname + "?" + searchParams.toString();
+      history.pushState(null, "", newRelativePathQuery);
     },
     saveSettings() {
-      this.syncConfigToUrl()
-      this.rebuildGrid()
+      this.syncConfigToUrl();
+      this.rebuildGrid();
     },
     generateDisplayTime() {
-      const duration = (Date.now() - this.startTime) / 1000
-      this.displayTime = `${Math.floor(duration / 60)}m ${Math.floor(duration % 60)}s`
+      const duration = (Date.now() - this.startTime) / 1000;
+      this.displayTime = `${Math.floor(duration / 60)}m ${Math.floor(
+        duration % 60
+      )}s`;
     },
     removeWord(index) {
       this.words.splice(index, 1);
     },
     addWord() {
-      this.words.push('');
+      this.words.push("");
     },
     wordListClasses(word) {
-      const classes = ['badge', 'badge-pill', 'badge-primary'];
+      const classes = ["badge", "badge-pill", "badge-primary"];
       if (this.foundWords.indexOf(word) !== -1) {
-        classes.push('badge-success');
+        classes.push("badge-success");
       }
       return classes;
     },
@@ -311,7 +273,7 @@ export default {
           return (
             r.start.x === r.end.x ||
             r.start.y === r.end.y ||
-            (Math.abs(r.start.x - x) === Math.abs(r.start.y - y))
+            Math.abs(r.start.x - x) === Math.abs(r.start.y - y)
           );
         }
       }
@@ -326,36 +288,42 @@ export default {
       return false;
     },
     letterTileClasses(x, y) {
-      const classes = ['letter-tile'];
+      const classes = ["letter-tile"];
 
       if (this.isTileHighlighted(x, y)) {
-        classes.push('letter-tile-highlighted');
+        classes.push("letter-tile-highlighted");
       }
 
       if (this.isTileAFoundWordTile(x, y)) {
-        classes.push('letter-tile-found');
+        classes.push("letter-tile-found");
       }
 
       return classes;
     },
     wordLinesForTile(x, y) {
-      return this.wordLines.filter(wordLine => (wordLine.x === x) && (wordLine.y === y))
+      return this.wordLines.filter(
+        (wordLine) => wordLine.x === x && wordLine.y === y
+      );
     },
     wordLineClasses(wordLine) {
       const classes = [
-        'word-strike',
-        'word-strike-direction-' + wordLine.direction,
-        'word-strike-length-' + wordLine.length,
-      ]
+        "word-strike",
+        "word-strike-direction-" + wordLine.direction,
+        "word-strike-length-" + wordLine.length,
+      ];
       // Odd directions are diagonal
       if (wordLine.direction % 2 === 1) {
-        classes.push('word-strike-diagonal')
+        classes.push("word-strike-diagonal");
       }
       return classes;
     },
     wordSelectStart(event) {
-      const touchedElement = event.target.closest('div.letter-tile');
-      if (touchedElement && touchedElement.dataset && touchedElement.dataset.x) {
+      const touchedElement = event.target.closest("div.letter-tile");
+      if (
+        touchedElement &&
+        touchedElement.dataset &&
+        touchedElement.dataset.x
+      ) {
         this.selectedRange.start = {
           x: parseInt(touchedElement.dataset.x, 10),
           y: parseInt(touchedElement.dataset.y, 10),
@@ -371,13 +339,19 @@ export default {
       }
       let touch = event;
 
-      if (event.type.indexOf('touch') === 0) {
+      if (event.type.indexOf("touch") === 0) {
         touch = event.changedTouches.item(0);
       }
 
-      const touchedElement = document.elementFromPoint(touch.clientX, touch.clientY).closest('div.letter-tile');
+      const touchedElement = document
+        .elementFromPoint(touch.clientX, touch.clientY)
+        .closest("div.letter-tile");
 
-      if (touchedElement && touchedElement.dataset && touchedElement.dataset.x) {
+      if (
+        touchedElement &&
+        touchedElement.dataset &&
+        touchedElement.dataset.x
+      ) {
         const x = parseInt(touchedElement.dataset.x, 10);
         const y = parseInt(touchedElement.dataset.y, 10);
 
@@ -387,13 +361,11 @@ export default {
         // Verify the end is valid.
         // If dy (change in y) or dx (change in x) is zero, then it is horizontal/vertcal == OK.
         // Or if dx === dy, then it is diagonal.
-        if ((dy === 0 && dx > 0) ||
-            (dx === 0 && dy > 0) ||
-            (dx === dy)) {
+        if ((dy === 0 && dx > 0) || (dx === 0 && dy > 0) || dx === dy) {
           this.selectedRange.end = { x, y };
 
           // If it's mouseup, then we finished the dragging a range
-          if (event.type === 'mouseup' || event.type === 'touchend') {
+          if (event.type === "mouseup" || event.type === "touchend") {
             console.log(JSON.stringify(this.selectedRange)); // eslint-disable-line no-console
 
             this.guess = [];
@@ -405,37 +377,35 @@ export default {
 
             // 0 = up, 1 = up-right, 2 = right, 3 = down-right, 4 = down
             // 5 = down-left, 6 = left, 7 = up-left
-            var direction = 0
+            var direction = 0;
 
             if (dx === 0) {
               // Vertical
               const step = ey > sy ? 1 : -1;
-              for (let i = sy; step > 0 ? (i <= ey) : (i >= ey); i += step) {
+              for (let i = sy; step > 0 ? i <= ey : i >= ey; i += step) {
                 this.guess.push({ x: sx, y: i });
               }
-              direction = step > 0 ? 4 : 0
+              direction = step > 0 ? 4 : 0;
             } else if (dy === 0) {
               // Horizontal
               const step = ex > sx ? 1 : -1;
-              for (let i = sx; step > 0 ? (i <= ex) : (i >= ex); i += step) {
+              for (let i = sx; step > 0 ? i <= ex : i >= ex; i += step) {
                 this.guess.push({ x: i, y: sy });
               }
-              direction = step > 0 ? 2 : 7
+              direction = step > 0 ? 2 : 7;
             } else {
               // Diagonal
               const stepX = ex > sx ? 1 : -1;
               const stepY = ey > sy ? 1 : -1;
               for (
                 let iX = sx, iY = sy;
-                (stepY > 0 ? (iY <= ey) : (iY >= ey)) || (stepX > 0 ? (iX <= ex) : (iX >= ex));
+                (stepY > 0 ? iY <= ey : iY >= ey) ||
+                (stepX > 0 ? iX <= ex : iX >= ex);
                 iY += stepY, iX += stepX
               ) {
                 this.guess.push({ x: iX, y: iY });
               }
-              direction = stepX > 0
-                ? stepY > 0 ? 3 : 1
-                : stepY > 0 ? 5 : 7
-
+              direction = stepX > 0 ? (stepY > 0 ? 3 : 1) : stepY > 0 ? 5 : 7;
             }
 
             if (this.usedWords.indexOf(this.guessedWord) !== -1) {
@@ -445,25 +415,30 @@ export default {
                 x: sx,
                 y: sy,
                 length: this.guessedWord.length,
-                direction
-              }
-              this.wordLines.push(newWordLine)
+                direction,
+              };
+              this.wordLines.push(newWordLine);
               if (this.debugEnabled) {
-                console.log('Found Word:', this.guessedWord, sx, sy, newWordLine); // eslint-disable-line no-console
+                console.log(
+                  "Found Word:",
+                  this.guessedWord,
+                  sx,
+                  sy,
+                  newWordLine
+                ); // eslint-disable-line no-console
               }
             }
-
 
             // Gesture complete, reset the range.
             this.resetSelectedRange();
           }
-        } else if (event.type === 'mouseup' || event.type === 'touchend') {
+        } else if (event.type === "mouseup" || event.type === "touchend") {
           // Verify failed, reset range (only if at the end of a gesture)
           this.resetSelectedRange();
         } else {
           this.selectedRange.end = undefined;
         }
-      } else if (event.type === 'mouseup' || event.type === 'touchend') {
+      } else if (event.type === "mouseup" || event.type === "touchend") {
         // End was "null" or had no x/y. Reset.
         this.resetSelectedRange();
       } else {
@@ -478,31 +453,31 @@ export default {
       };
     },
     gridVal(x, y) {
-      if (typeof this.letterGrid[y] !== 'undefined') {
-        if (typeof this.letterGrid[y][x] !== 'undefined') {
+      if (typeof this.letterGrid[y] !== "undefined") {
+        if (typeof this.letterGrid[y][x] !== "undefined") {
           return this.letterGrid[y][x];
         }
       }
-      return '';
+      return "";
     },
     clearGameState() {
-      this.foundWords = []
-      this.foundTiles = []
-      this.guess = []
-      this.wordLines = []
-      this.startTime = Date.now()
-      this.generateDisplayTime()
+      this.foundWords = [];
+      this.foundTiles = [];
+      this.guess = [];
+      this.wordLines = [];
+      this.startTime = Date.now();
+      this.generateDisplayTime();
     },
     rebuildGrid() {
       // Init letterGrid...
-      this.letterGrid = [...Array(this.sizeInt)].map(() => Array(this.sizeInt))
-      this.usedWords = []
-      this.clearGameState()
+      this.letterGrid = [...Array(this.sizeInt)].map(() => Array(this.sizeInt));
+      this.usedWords = [];
+      this.clearGameState();
 
       // Build letterGrid.
       this.words.forEach((word) => {
         if (word.length > this.sizeInt) {
-          console.error('Word wont fit on board'); // eslint-disable-line no-console
+          console.error("Word wont fit on board"); // eslint-disable-line no-console
           return;
         }
         let isValid = false;
@@ -515,7 +490,7 @@ export default {
         do {
           itterationCount += 1;
           if (itterationCount > 100) {
-            console.error('Tried to write word 100 times and failed', word); // eslint-disable-line no-console
+            console.error("Tried to write word 100 times and failed", word); // eslint-disable-line no-console
             return;
           }
 
@@ -549,22 +524,22 @@ export default {
           }
 
           try {
-            const endX = x + (dx * word.length);
+            const endX = x + dx * word.length;
             if (endX < 0 || endX > this.sizeInt) {
-              throw new Error('Word exceeds width');
+              throw new Error("Word exceeds width");
             }
-            const endY = y + (dy * word.length);
+            const endY = y + dy * word.length;
             if (endY < 0 || endY > this.sizeInt) {
-              throw new Error('Word exceeds height');
+              throw new Error("Word exceeds height");
             }
             // If we have got here, then it fits on the grid!
             // Simulate laying it to check for overlap.
             for (let cIndex = 0; cIndex < word.length; cIndex += 1) {
-              const xCord = x + (cIndex * dx);
-              const yCord = y + (cIndex * dy);
+              const xCord = x + cIndex * dx;
+              const yCord = y + cIndex * dy;
               if (this.letterGrid[yCord][xCord] !== undefined) {
                 if (this.letterGrid[yCord][xCord] !== word[cIndex]) {
-                  throw new Error('Letter Overlap');
+                  throw new Error("Letter Overlap");
                 }
               }
             }
@@ -581,22 +556,24 @@ export default {
         // Has been found valid, so write it in.
         this.usedWords.push(word);
         for (let cIndex = 0; cIndex < word.length; cIndex += 1) {
-          const xCord = x + (cIndex * dx);
-          const yCord = y + (cIndex * dy);
+          const xCord = x + cIndex * dx;
+          const yCord = y + cIndex * dy;
           this.letterGrid[yCord][xCord] = word[cIndex];
         }
       });
 
       // Now fill in the rest of the grid.
-      const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+      const alphabet = "abcdefghijklmnopqrstuvwxyz";
       for (let y = 0; y < this.sizeInt; y += 1) {
         for (let x = 0; x < this.sizeInt; x += 1) {
           if (this.letterGrid[y][x] === undefined) {
-            this.letterGrid[y][x] = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+            this.letterGrid[y][x] = alphabet.charAt(
+              Math.floor(Math.random() * alphabet.length)
+            );
           }
         }
       }
     },
-  }
+  },
 };
 </script>
