@@ -163,7 +163,7 @@ export default {
   data() {
     return {
       debugEnabled: false,
-      size: 8,
+      size: 10,
       words: [],
       backwards: false,
       usedWords: [],
@@ -192,18 +192,18 @@ export default {
     },
   },
   watch: {
-    // backwards: function () {
-    //   this.syncConfigToUrl();
-    // },
-    // words: function () {
-    //   this.syncConfigToUrl();
-    // },
-    // size: function () {
-    //   this.syncConfigToUrl();
-    // },
+    backwards: function () {
+      this.syncConfigToUrl();
+    },
+    words: function () {
+      this.syncConfigToUrl();
+    },
+    size: function () {
+      this.syncConfigToUrl();
+    },
   },
   mounted() {
-    // this.syncConfigFromUrl();
+    this.syncConfigFromUrl();
     this.rebuildGrid();
     // setInterval(
     //   function () {
@@ -486,9 +486,6 @@ export default {
     },
     rebuildGrid() {
       // Init letterGrid...
-      this.letterGrid = [...Array(this.sizeInt)].map(() => Array(this.sizeInt));
-      this.usedWords = [];
-      this.clearGameState();
       fetch(process.env.VUE_APP_API_URL + "/mixed_word")
         .then((res) => res.json())
         .then((res) => {
@@ -499,11 +496,13 @@ export default {
             return acc;
           }, []);
           this.words = obj;
-          this.usedWords = this.words;
         })
         .catch((err) => {
           console.log(err);
         });
+      this.letterGrid = [...Array(this.sizeInt)].map(() => Array(this.sizeInt));
+      this.usedWords = [];
+      this.clearGameState();
       // Build letterGrid.
       this.words.forEach((word) => {
         if (word.length > this.sizeInt) {
