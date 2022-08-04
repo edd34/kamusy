@@ -139,12 +139,14 @@
 </template>
 
 <script>
-const SYNCABLE_KEYS = {
+import { mapState } from "vuex";
+
+var SYNCABLE_KEYS = {
   backwards: { type: Boolean, default: false },
   words: {
     type: Array,
     default: [
-      "jeje",
+      "kwezi",
       "kwaheri",
       "marahaba",
       "uhuru",
@@ -179,6 +181,9 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      list_word: (state) => state.store_mixed_word.listWord,
+    }),
     sizeInt() {
       return parseInt(this.size, 10);
     },
@@ -187,25 +192,25 @@ export default {
     },
   },
   watch: {
-    backwards: function () {
-      this.syncConfigToUrl();
-    },
-    words: function () {
-      this.syncConfigToUrl();
-    },
-    size: function () {
-      this.syncConfigToUrl();
-    },
+    // backwards: function () {
+    //   this.syncConfigToUrl();
+    // },
+    // words: function () {
+    //   this.syncConfigToUrl();
+    // },
+    // size: function () {
+    //   this.syncConfigToUrl();
+    // },
   },
   mounted() {
-    this.syncConfigFromUrl();
+    // this.syncConfigFromUrl();
     this.rebuildGrid();
-    setInterval(
-      function () {
-        this.generateDisplayTime();
-      }.bind(this),
-      1000
-    );
+    // setInterval(
+    //   function () {
+    //     this.generateDisplayTime();
+    //   }.bind(this),
+    //   1000
+    // );
   },
   methods: {
     syncConfigFromUrl() {
@@ -484,7 +489,21 @@ export default {
       this.letterGrid = [...Array(this.sizeInt)].map(() => Array(this.sizeInt));
       this.usedWords = [];
       this.clearGameState();
+      fetch(process.env.VUE_APP_API_URL + "/mixed_word")
+        .then((res) => res.json())
+        .then((res) => {
+          // this.entries = res;
 
+          var obj = res.reduce(function (acc, cur, i) {
+            acc[i] = cur.name;
+            return acc;
+          }, []);
+          this.words = obj;
+          this.usedWords = this.words;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       // Build letterGrid.
       this.words.forEach((word) => {
         if (word.length > this.sizeInt) {
