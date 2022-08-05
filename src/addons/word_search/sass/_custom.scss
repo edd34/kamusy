@@ -4,18 +4,22 @@
     height: 20px;
     opacity: 66.66%;
   }
+
   &:hover {
     img {
       opacity: 100%;
     }
   }
 }
+
 .settings-icon {
   fill: $body-color;
 }
+
 .letter-tile {
   padding: 100% 0 0;
   cursor: pointer;
+
   svg {
     position: absolute;
     left: 0;
@@ -26,12 +30,15 @@
   }
 
   transition: background ease-in 0.1s;
+
   &:hover {
-    background: rgba(255,255,255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
   }
+
   &.letter-tile-found {
     background: rgba(0, 255, 0, 0.3);
   }
+
   &.letter-tile-highlighted {
     background: rgba(255, 255, 0, 0.2);
   }
@@ -44,18 +51,29 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  z-index: 100;
+  z-index: 1;
   box-shadow: 0 0 7px #fff;
   transform-origin: 0 0;
 
   @for $i from 0 to 7 {
-    &.word-strike-direction-#{$i} { transform: rotate((($i * 45deg) - 90deg)); }
+    &.word-strike-direction-#{$i} {
+      transform: rotate((($i * 45deg) - 90deg));
+    }
   }
+
   @for $i from 0 to 20 {
-    &:not(.word-strike-diagonal).word-strike-length-#{$i} { width: ($i - 1) * 100%; }
-    &.word-strike-diagonal.word-strike-length-#{$i} { width: ($i - 1) * 100% * 1.414214; } // 1.414214 is a hypothenuse multiplier
+    &:not(.word-strike-diagonal).word-strike-length-#{$i} {
+      width: ($i - 1) * 100%;
+    }
+
+    &.word-strike-diagonal.word-strike-length-#{$i} {
+      width: ($i - 1) * 100% * 1.414214;
+    }
+
+    // 1.414214 is a hypothenuse multiplier
   }
 }
+
 #wordsearch_grid {
   @extend .col-auto;
   @extend .mt-1;
@@ -71,10 +89,11 @@
     min-width: calc(90vh - 50px);
   }
 
-  > div {
+  >div {
     @extend .d-flex;
     @extend .justify-content-center;
-    > div {
+
+    >div {
       @extend .col;
       @extend .border;
       padding: 0;
@@ -85,12 +104,13 @@
     }
 
     &:not(:last-child) {
-      > div {
+      >div {
         border-bottom-width: 0 !important;
       }
     }
   }
 }
+
 .words {
   .badge {
     margin: 0 0.5em 0.5em 0;
