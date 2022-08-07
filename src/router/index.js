@@ -4,6 +4,8 @@ import Translation from '../views/Translation.vue'
 import AddTranslation from '../views/AddTranslation.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
+import About from '../views/About.vue'
+import MixedWord from '../../src/addons/word_search/App.vue'
 
 Vue.use(VueRouter)
 
@@ -31,20 +33,17 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: About,
   },
   {
-    path: '/word-search',
+    path: '/word-search-yt',
     name: 'WordSearch',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../addons/word_search/App.vue'),
+    component: MixedWord,
+  },
+  {
+    path: '/word-search-mg',
+    name: 'WordSearch',
+    component: MixedWord,
   },
 ]
 

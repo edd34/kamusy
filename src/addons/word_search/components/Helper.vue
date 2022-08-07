@@ -247,9 +247,9 @@ export default {
           }
         }
       });
-      var newRelativePathQuery =
-        window.location.pathname + "?" + searchParams.toString();
-      history.pushState(null, "", newRelativePathQuery);
+      // var newRelativePathQuery =
+      //   window.location.pathname + "?" + searchParams.toString();
+      // history.pushState(null, "", newRelativePathQuery);
     },
     saveSettings() {
       this.syncConfigToUrl();
@@ -486,7 +486,14 @@ export default {
     },
     rebuildGrid() {
       // Init letterGrid...
-      fetch(process.env.VUE_APP_API_URL + "/mixed_word")
+      this.clearGameState();
+      console.log(window.location);
+      fetch(
+        process.env.VUE_APP_API_URL +
+          "/mixed_word/" +
+          this.$route.query.lang +
+          "/"
+      )
         .then((res) => res.json())
         .then((res) => {
           // this.entries = res;

@@ -99,7 +99,16 @@ export default {
         icon: "mdi-pen-plus",
         to: "/add-translation",
       },
-      { title: "Mots mêlés", icon: "mdi-information", to: "/word-search" },
+      {
+        title: "Mots mêlés 🇾🇹",
+        icon: "mdi-information",
+        to: "/word-search-yt?lang=mahorais",
+      },
+      {
+        title: "Mots mêlés 🇲🇬",
+        icon: "mdi-information",
+        to: "/word-search-mg?lang=kibushi",
+      },
       { title: "À Propos", icon: "mdi-information", to: "/about" },
     ],
     items_account_menu_disconnected: [
