@@ -35,7 +35,7 @@
         </div>
 
         <div class="col mb-5">
-          <h2>Mots</h2>
+          <h2>Mots : {{ this.$route.query.lang }}</h2>
           <div class="words">
             <span
               v-for="word in usedWords"
