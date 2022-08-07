@@ -145,15 +145,7 @@ var SYNCABLE_KEYS = {
   backwards: { type: Boolean, default: false },
   words: {
     type: Array,
-    default: [
-      "kwezi",
-      "kwaheri",
-      "marahaba",
-      "uhuru",
-      "uhafadhui",
-      "usoma",
-      "kamusy",
-    ],
+    default: [],
   },
   size: { type: Number, default: 10 },
 };
@@ -196,14 +188,23 @@ export default {
       this.syncConfigToUrl();
     },
     words: function () {
-      this.syncConfigToUrl();
+      // this.syncConfigToUrl();
     },
     size: function () {
       this.syncConfigToUrl();
     },
+    "$route.query.lang": {
+      handler: function (search) {
+        console.log(search);
+        this.words = [];
+        this.rebuildGrid();
+      },
+      deep: true,
+      immediate: true,
+    },
   },
   mounted() {
-    this.syncConfigFromUrl();
+    // this.syncConfigFromUrl();
     this.rebuildGrid();
     // setInterval(
     //   function () {
@@ -212,6 +213,9 @@ export default {
     //   1000
     // );
   },
+  // updated() {
+  //   this.rebuildGrid();
+  // },
   methods: {
     syncConfigFromUrl() {
       var searchParams = new URLSearchParams(window.location.search);
@@ -486,8 +490,6 @@ export default {
     },
     rebuildGrid() {
       // Init letterGrid...
-      this.clearGameState();
-      console.log(window.location);
       fetch(
         process.env.VUE_APP_API_URL +
           "/mixed_word/" +
