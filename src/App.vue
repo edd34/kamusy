@@ -3,10 +3,17 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="text-h6"> Kamusy </v-list-item-title>
-          <v-list-item-subtitle>
-            Le dictionnaire mahorais
-          </v-list-item-subtitle>
+          <v-row>
+            <v-col cols="3" center>
+              <v-img contains src="/favicon.ico"></v-img>
+            </v-col>
+            <v-col cols="9">
+              <v-list-item-title class="text-h6"> Kamusy </v-list-item-title>
+              <v-list-item-subtitle>
+                Le dictionnaire mahorais
+              </v-list-item-subtitle></v-col
+            >
+          </v-row>
         </v-list-item-content>
       </v-list-item>
 
