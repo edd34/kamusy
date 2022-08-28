@@ -5,28 +5,17 @@
         margin-bottom: auto;
         width: 100% !important;
         max-width: 100% !important;
+        font-family: "Roboto",Helvetica,Arial,sans-serif !important;
     }
-
-
-
     .content-head-blocs {
         display: flex;
         height: 100vh;
-        /*margin-top: 70px;*/
-        /*position: absolute;
-        top: 60px;
-        left: 0;
-        z-index: 99;
-        width: 100%;
-        height: 100%;*/
-
     }
     .content-bloc-words {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
-
     .content-bloc-other {
         padding: 20px;
         flex: 1;
@@ -44,34 +33,29 @@
     }
 
     .bloc > div {
-        box-shadow: 2px 4px 6px 4px rgba(0, 0, 0, .1);
+        /*box-shadow: 2px 4px 6px 4px rgba(0, 0, 0, .1);*/
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06);
         border-radius: 10px;
         background-color: white;
     }
 
+    /* Trauction */
     .bloc-1 {
         padding: 15px !important;
-        /*height: 100% !important;*/
         min-height: 420px !important;
     }
-
     .bloc-1 > div {
         height: 100% !important;
     }
 
+    /* Graphs */
     .checked-word > div {
         padding: 0 5px 5px 5px;
-        /*margin-right: 5px;*/
-        /*flex: 1;*/
-        /*min-width: 200px;*/
         background-image: linear-gradient(195deg,#66bb6a,#43a047);
     }
 
     .add-word > div {
         padding: 0 5px 5px 5px;
-        /*margin-left: 5px;*/
-        /*flex: 1;*/
-        /*min-width: 200px;*/
         background-image: linear-gradient(195deg,#42424a,#191919);
     }
 
@@ -94,7 +78,7 @@
                                     @change="selectSrcLanguage"
                                     item-text="name"
                                     item-value="id"
-                                    label="Choisissesssz"
+                                    label="Choisissez"
                                     single-line
                                     ></v-select>
                                 </v-col>

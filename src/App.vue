@@ -5,7 +5,7 @@
     /* app-bar header */
     .v-sheet.v-app-bar.v-toolbar:not(.v-sheet--outlined) {
         box-shadow: inherit !important;
-        background-color: #f8f9fa !important;
+        background-color: #f0f2f5 !important;
         position: inherit !important;
         flex: inherit !important;
     }
@@ -20,7 +20,11 @@
     }
 
     #inspire {
-        background-color: #f8f9fa !important;
+        background-color: #f0f2f5 !important;
+    }
+
+    .v-navigation-drawer__content {
+        background-image: linear-gradient(195deg,#42424a,#191919) !important;
     }
 
     /*--End Surcharge--*/
@@ -31,6 +35,14 @@
     .col-n {
         padding: 2px 2px 15px 15px;
         height: 100%;
+    }
+
+    .icon-bar, .title-bar {
+        color: white !important;
+    }
+
+    .text-h6, .text-h6 + .v-list-item__subtitle {
+        color: white !important;
     }
 
     /*-- End Other --*/
@@ -54,19 +66,23 @@
                                 <v-icon>mdi-account</v-icon>
                             </v-btn>
                         </template>
+
                         <v-list v-if="!is_connected">
                             <v-list-item
                             v-for="(item, index) in items_account_menu_disconnected"
-                            :key="index"
-                            :to="item.to"
-                            link
+                                :key="index"
+                                :to="item.to"
+                                link
                             >
-                            <v-list-item-icon>
-                                <v-icon>{{ item.icon }}</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                                <v-list-item-icon>
+                                    <v-icon>{{ item.icon }}</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title  style="color: white;">
+                                    {{ item.title }}
+                                </v-list-item-title>
                             </v-list-item>
                         </v-list>
+
                         <v-list v-if="is_connected">
                             <v-list-item>
                                 <v-list-item-icon>
@@ -80,11 +96,12 @@
                             :to="item.to"
                             link
                             >
-                            <v-list-item-icon>
-                                <v-icon>{{ item.icon }}</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-title>{{ item.title }}</v-list-item-title>
-                        </v-list-item></v-list>
+                                <v-list-item-icon>
+                                    <v-icon>{{ item.icon }}</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
                     </v-menu>
                 </div>
             </v-col>
@@ -95,6 +112,7 @@
     <!-- TODO : en faire une vue a part entiére -->
     <div class="content-head-blocs">
         <div class="col-n cols">
+
             <!-- nav bar -->
             <v-navigation-drawer v-model="drawer" app>
               <v-list-item>
@@ -118,11 +136,11 @@
               <v-list dense nav>
                 <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
                   <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon class="icon-bar">{{ item.icon }}</v-icon>
                   </v-list-item-icon>
 
                   <v-list-item-content>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    <v-list-item-title class="title-bar">{{ item.title }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -177,7 +195,6 @@ export default {
         to: "/word-search-mg?lang=kibushi",
       },
       { title: "À Propos", icon: "mdi-information", to: "/about" },
-      { title: "Graph", icon: "mdi-information", to: "/chart" },
     ],
     items_account_menu_disconnected: [
       { title: "Se connecter", icon: "mdi-login", to: "/login" },
@@ -201,7 +218,7 @@ export default {
             $("nav.v-navigation-drawer").css("width", "57px");
             $("nav.v-navigation-drawer").css("transform", "translateX(0%)");
 
-            $(".v-list-item__subtitle").css("color", "white");
+            $(".v-list-item__subtitle").css("visibility", "hidden");
         }
         else{
             $("nav.v-navigation-drawer").css("position", "inherit");
@@ -209,7 +226,7 @@ export default {
             $("nav.v-navigation-drawer").css("visibility", "visible");
             $("nav.v-navigation-drawer").css("transform", "translateX(0%)");
 
-            $(".v-list-item__subtitle").css("color", "gray");
+            $(".v-list-item__subtitle").css("visibility", "visible");
         }
         
     },
