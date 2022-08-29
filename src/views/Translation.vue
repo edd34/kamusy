@@ -48,14 +48,15 @@
         height: 100% !important;
     }
 
+
     /* Graphs */
     .checked-word > div {
-        padding: 0 5px 5px 5px;
+        padding: 10px 5px 10px 5px;
         background-image: linear-gradient(195deg,#66bb6a,#43a047);
     }
 
     .add-word > div {
-        padding: 0 5px 5px 5px;
+        padding: 10px 5px 10px 5px;
         background-image: linear-gradient(195deg,#42424a,#191919);
     }
 
@@ -63,8 +64,8 @@
 
 <template>
     <div>
-        <v-container class="" style="" >
-            <v-row>
+        <v-container class="cont-all " style="" >
+            <v-row class="">
 
                 <!-- Traduction -->
                 <div class="bloc-1 bloc" style="">
@@ -170,11 +171,11 @@
 
                 <!-- Bloc graphique et autres -->
                 <div class="content-bloc-other " style="">
-
-                    <v-row class="dico" style="">
-                        <v-col class="bloc">
+                    <div class="">
+                    <v-row class="" style="">
+                        <v-col class="bloc  ">
                             <!-- Dictionnaire -->
-                            <div style="width:100%; height: 200px;">
+                            <div class="dico" style="width:100%; height: 200px;">
 
                             </div>
                         </v-col>
@@ -185,7 +186,7 @@
 
                         <div class="checked-word bloc " style="min-width: 100px;">
                             <!-- Mots valider -->
-                            <div style="width:100%; height: 200px; overflow: hidden;">
+                            <div class="" style="width:100%; height: 200px; overflow: hidden;">
                                 <LineChart />
                             </div>
                         </div>
@@ -199,6 +200,7 @@
                         </div>
 
                     </v-row>
+                    </div>
                 </div>
             </v-row>
         </v-container>
@@ -210,6 +212,7 @@ import { mapState } from "vuex";
 import { mapGetters } from "vuex"; 
 import BarChart from '../components/BarChart'
 import LineChart from '../components/LineChart'
+
 
 export default {
   name: "Translation",
@@ -314,6 +317,23 @@ export default {
           .finally(() => (this.isWordLoading = false));
       }
     },
+  },
+  mounted() {
+    $(window).resize(function() {
+        // To make perfect square
+        if( parseInt($(".col-b > .container").css("width").replace("px", "")) > 1040 ) {
+            // Traduction
+            var width = parseInt($(".bloc-1").css("width").replace("px", ""));
+            $(".bloc-1").css("height", width + "px");
+
+            // dico
+            var cont_heigth = parseInt($(".bloc-1").css("height").replace("px", ""));
+            var cont_other_width = parseInt($(".content-bloc-words").css("height").replace("px", ""));
+            // TODO : make padding (12 - 20 + 5) get by css js
+            $(".dico").css("height", (cont_heigth - cont_other_width - 12 - 20 + 5) + "px");
+        }
+
+    });
   },
   watch: {
     search(val) {

@@ -24,7 +24,8 @@ import {
   LinearScale,
   PointElement,
   CategoryScale,
-  Plugin} from 'chart.js';
+  Plugin
+} from 'chart.js';
 
 ChartJS.register(
   Title,
@@ -125,16 +126,17 @@ export default {
         },
         plugins: {
           legend: {
-            labels: {
-              color: 'white',
-              usePointStyle: true,
-              font: {
-                  size: 10
-              }
-            },
-            title: {
-              color: 'white',
-            }
+            display: false,
+            // labels: {
+            //   color: 'white',
+            //   usePointStyle: true,
+            //   font: {
+            //       size: 10
+            //   }
+            // },
+            // title: {
+            //   color: 'white',
+            // }
           }
         }
       }

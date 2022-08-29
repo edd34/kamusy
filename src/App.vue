@@ -12,20 +12,56 @@
 
     /* nav-bar */
     nav.v-navigation-drawer {
-        height: 100% !important;
+        height: calc(100% - 80px) !important;
+        height: calc(100vh - 80px) !important;
         border-radius: 10px;
         /*box-shadow: gray 1px 1px 4px 1px;*/
-        box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, .1);
+        /*box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, .1);*/
         /*margin-left: 5px;*/
     }
 
-    #inspire {
-        background-color: #f0f2f5 !important;
+    .theme--light.v-list-item--active:hover::before, .theme--light.v-list-item--active::before{
+        background-color: currentColor;
+        opacity: 0.3;
+    }
+
+    /* when bar closed */
+    .v-navigation-drawer__content.closed .theme--light.v-list-item--active:hover::before, .v-navigation-drawer__content.closed .theme--light.v-list-item--active::before {
+        width: 200px;
+        background-color: #f0f2f5;
+        opacity: 1;
+
+    }
+
+    .v-navigation-drawer__content.closed .v-list .v-list-item--active {
+        z-index: 2;
+        margin-left: 10px;
+    }
+
+    .v-navigation-drawer__content.closed .v-list .v-list-item--active .v-icon {
+        color: black !important;
+    }
+
+    /* Global */
+    .v-list-item--link::before {
+        opacity: 1;
+        background-color: inherit;
+        border-radius: 20px 0px 0px 20px !important;
+    }
+    .v-list-item__content {
+        z-index: 1;
     }
 
     .v-navigation-drawer__content {
         background-image: linear-gradient(195deg,#42424a,#191919) !important;
     }
+
+    /*background*/
+    #inspire {
+        background-color: #f0f2f5 !important;
+    }
+
+    
 
     /*--End Surcharge--*/
 
@@ -214,6 +250,8 @@ export default {
         this.openLeftBar = !this.openLeftBar;
         if( ! this.openLeftBar ){
 
+            $(".v-navigation-drawer__content").addClass("closed");
+
             $("nav.v-navigation-drawer").css("position", "inherit");
             $("nav.v-navigation-drawer").css("width", "57px");
             $("nav.v-navigation-drawer").css("transform", "translateX(0%)");
@@ -226,6 +264,8 @@ export default {
             $("nav.v-navigation-drawer").css("visibility", "visible");
             $("nav.v-navigation-drawer").css("transform", "translateX(0%)");
 
+            $(".v-navigation-drawer__content").removeClass("closed");
+
             $(".v-list-item__subtitle").css("visibility", "visible");
         }
         
@@ -237,7 +277,7 @@ export default {
 
         // js and css change property
         $("nav.v-navigation-drawer").css("left", "0px");
-        this.closeLeftBar();
+        this.closeLeftBar();        
     },
 };
 
