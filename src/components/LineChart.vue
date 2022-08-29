@@ -37,6 +37,8 @@ ChartJS.register(
   CategoryScale
 )
 
+// Chart.defaults.borderColor = 'white';
+
 export default {
   name: 'LineChart',
   components: { LineChartGenerator },
@@ -105,20 +107,32 @@ export default {
         },
         scales: {
           yAxis: {
+            grid: {
+              borderDash: [4],
+              borderColor: "white",
+              color: 'white',
+              display: true,
+              drawBorder: false,
+              drawOnChartArea: true,
+              drawTicks: true,
+            },
             ticks: {
                 backdropColor: "white",
                 textStrokeColor: 'white',
                 color: 'white',
                 fontColor: 'white',
-            }
+            },
           },
           xAxis: {
+            grid: {
+              display: false,
+            },
             ticks: {
                 backdropColor: "white",
                 textStrokeColor: 'white',
                 color: 'white',
                 fontColor: 'white',
-            }
+            },
           },
         },
         line: {

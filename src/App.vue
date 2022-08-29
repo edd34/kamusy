@@ -89,7 +89,7 @@
     <v-app id="inspire">
 
     <!-- header -->
-    <v-app-bar app>
+    <v-app-bar app style="left: 0px !important">
         <v-app-bar-nav-icon @click="closeLeftBar"></v-app-bar-nav-icon>
         <img  src="/favicon.ico"></img>
         <v-toolbar-title>Kamusy</v-toolbar-title>
@@ -150,7 +150,7 @@
         <div class="col-n cols">
 
             <!-- nav bar -->
-            <v-navigation-drawer v-model="drawer" app>
+            <v-navigation-drawer id="nav-bar" v-model="drawer" app style="transform: translate(0%) !important;">
               <v-list-item>
                 <v-list-item-content>
                   <v-row>
@@ -244,10 +244,8 @@ export default {
     disconnect: () => {
       this.$store.dispatch("store_account/disconnect");
     },
-    closeLeftBar () {
-        // this.drawer = !this.drawer
-        
-        this.openLeftBar = !this.openLeftBar;
+    updateBar() {
+        console.log("updateBar");
         if( ! this.openLeftBar ){
 
             $(".v-navigation-drawer__content").addClass("closed");
@@ -268,7 +266,12 @@ export default {
 
             $(".v-list-item__subtitle").css("visibility", "visible");
         }
-        
+        $("header.v-sheet").css("left", "0px");
+    },
+    closeLeftBar () {
+        // this.drawer = !this.drawer
+        this.openLeftBar = !this.openLeftBar;
+        this.updateBar(); 
     },
   },
     mounted() {
@@ -277,7 +280,14 @@ export default {
 
         // js and css change property
         $("nav.v-navigation-drawer").css("left", "0px");
-        this.closeLeftBar();        
+        this.closeLeftBar();
+        var thise = this;
+        $(window).resize(function () {
+            thise.updateBar();
+        });
+        document.getElementById("nav-bar").addEventListener('DOMAttrModified', function(e){
+            thise.updateBar();
+        }, true);
     },
 };
 

@@ -332,7 +332,6 @@ export default {
             // TODO : make padding (12 - 20 + 5) get by css js
             $(".dico").css("height", (cont_heigth - cont_other_width - 12 - 20 + 5) + "px");
         }
-
     });
   },
   watch: {
