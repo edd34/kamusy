@@ -1,7 +1,17 @@
 <style type="text/css">
 
+    :root {
+        --backgroundColor: #f0f2f5; 
+        /*#1e1e2f ; #f0f2f5 */
+        --blocColor: #1e1e2f;
+    }
+
     html {
-        overflow: hidden;
+        /*overflow: hidden;*/
+        background-color: white;
+    }
+    body {
+        background-color: white !important;
     }
 
     /*--Surcharge--*/
@@ -10,12 +20,31 @@
     .v-sheet.v-app-bar.v-toolbar:not(.v-sheet--outlined) {
         box-shadow: inherit !important;
         background-color: #f0f2f5 !important;
-        background-color: #1e1e2f !important;
+        background-color: var(--backgroundColor) !important;
         position: inherit !important;
         flex: inherit !important;
     }
     .v-sheet.login-page-active {
         display: none;
+    }
+    #icon-nav span i:before,
+    #icon-nav span i:after {
+        color: black;
+    }
+    .v-menu__content {
+        left: inherit !important;
+        right: 15px !important;
+        background-color: var(--blocColor);
+    }
+    .v-menu__content > div {
+        background-color: var(--blocColor) !important;
+    }
+    .v-menu__content > div a {
+        color: white !important;
+    }
+
+    #list-item-menu-profile {
+
     }
 
     /* nav-bar */
@@ -61,7 +90,7 @@
     .v-navigation-drawer__content.closed .theme--light.v-list-item--active:hover::before, .v-navigation-drawer__content.closed .theme--light.v-list-item--active::before {
         width: 200px;
         background-color: #f0f2f5;
-        background-color: #1e1e2f;
+        background-color: var(--backgroundColor) ;
         opacity: 1;
     }
 
@@ -72,7 +101,7 @@
 
     .v-navigation-drawer__content.closed .v-list .v-list-item--active .v-icon {
         color: black !important;
-        color: white !important;
+        /*color: white !important;*/
     }
 
     /* Global */
@@ -93,8 +122,12 @@
 
     /*background*/
     #inspire {
-        background-color: #1e1e2f !important;
+        background-color: var(--backgroundColor) !important;
         background-image: inherit;
+        border-radius: 30px;
+        border: solid 15px black;
+        margin: 15px;
+        overflow: hidden;
     }
 
     
@@ -130,9 +163,9 @@
 
     <!-- header -->
     <v-app-bar app style="left: 0px !important" v-bind:class="classObject">
-        <v-app-bar-nav-icon class="white-font" @click="closeLeftBar"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon id="icon-nav" class="" @click="closeLeftBar"></v-app-bar-nav-icon>
         <!-- <img  src="/favicon.ico"></img> -->
-        <v-toolbar-title class="white-font">Kamusy</v-toolbar-title>
+        <v-toolbar-title class="">Kamusy</v-toolbar-title>
         <v-row>
             <v-col align="right">
                 <div>
@@ -144,7 +177,7 @@
                         </template>
 
                         <v-list v-if="!is_connected">
-                            <v-list-item id="list-item-dd"
+                            <v-list-item id="list-item-menu-profile"
                             v-for="(item, index) in items_account_menu_disconnected"
                                 :key="index"
                                 :to="item.to"
