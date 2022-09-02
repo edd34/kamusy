@@ -21,7 +21,7 @@
         flex: 1;
     }
 
-    .col-b {
+    .col-router {
         width: 100%;
         padding: 20px;
     }
@@ -52,7 +52,8 @@
     /* Graphs */
     .checked-word > div {
         padding: 10px 5px 10px 5px;
-        background-image: linear-gradient(195deg,#66bb6a,#43a047);
+        /*background-image: linear-gradient(195deg,#66bb6a,#43a047);*/
+        background-color: white;
     }
 
     .add-word > div {
@@ -131,7 +132,7 @@
                                         <v-btn
                                         align="center"
                                         :loading="isWordLoading"
-                                        color="green"
+                                        color="black"
                                         class="ma-2 white--text"
                                         @click="get_translated_word()"
                                         >
@@ -187,7 +188,7 @@
                         <div class="checked-word bloc " style="min-width: 100px;">
                             <!-- Mots valider -->
                             <div class="" style="width:100%; height: 200px; overflow: hidden;">
-                                <LineChart />
+                                <LineChart :chart-id="chartID2" :chart-data="chartData2" :scales-p="scales2" />
                             </div>
                         </div>
 
@@ -195,7 +196,7 @@
                             <!-- Mots ajouter -->
                             <div style="width:100%; height: 200px; overflow: hidden;">
                                 <!-- <BarChart />  -->
-                                <LineChart />
+                                <LineChart  />
                             </div>
                         </div>
 
@@ -216,6 +217,7 @@ import LineChart from '../components/LineChart'
 
 export default {
   name: "Translation",
+  
   components: { BarChart, LineChart },
   computed: {
     ...mapState({
@@ -254,6 +256,53 @@ export default {
       descriptionLimit: 60,
       entries: [],
       search: null,
+      chartID2: "line-chart2",
+      chartData2: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [
+          {
+            label: 'Data two',
+            backgroundColor: 'black',
+            borderColor: 'black',
+            borderWidth: 3,
+            pointStyle: 'rectRot',
+            pointRadius: 5,
+            pointBorderColor: 'black',
+            color: 'black',
+            data: [20, 39, 80, 40, 39, 80, 40]
+          }
+        ]
+      },
+      scales2: {
+          yAxis: {
+            grid: {
+              borderDash: [4],
+              borderColor: "black",
+              color: 'black',
+              display: true,
+              drawBorder: false,
+              drawOnChartArea: true,
+              drawTicks: true,
+            },
+            ticks: {
+                backdropColor: "black",
+                textStrokeColor: 'black',
+                color: 'black',
+                fontColor: 'black',
+            },
+          },
+          xAxis: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+                backdropColor: "black",
+                textStrokeColor: 'black',
+                color: 'black',
+                fontColor: 'black',
+            },
+          },
+        }
     };
   },
   methods: {

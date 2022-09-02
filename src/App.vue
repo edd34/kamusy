@@ -1,5 +1,9 @@
 <style type="text/css">
 
+    html {
+        overflow: hidden;
+    }
+
     /*--Surcharge--*/
     
     /* app-bar header */
@@ -9,6 +13,9 @@
         position: inherit !important;
         flex: inherit !important;
     }
+    .v-sheet.login-page-active {
+        display: none;
+    }
 
     /* nav-bar */
     nav.v-navigation-drawer {
@@ -17,7 +24,10 @@
         border-radius: 10px;
         /*box-shadow: gray 1px 1px 4px 1px;*/
         /*box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, .1);*/
-        /*margin-left: 5px;*/
+        margin-left: 10px;
+    }
+    nav.v-navigation-drawer.login-page-active {
+        display: none;
     }
 
     .theme--light.v-list-item--active:hover::before, .theme--light.v-list-item--active::before{
@@ -59,6 +69,7 @@
     /*background*/
     #inspire {
         background-color: #f0f2f5 !important;
+        background-image: inherit;
     }
 
     
@@ -86,10 +97,10 @@
 </style>
 
 <template>
-    <v-app id="inspire">
+    <v-app id="inspire" v-bind:class="classObject">
 
     <!-- header -->
-    <v-app-bar app style="left: 0px !important">
+    <v-app-bar app style="left: 0px !important" v-bind:class="classObject">
         <v-app-bar-nav-icon @click="closeLeftBar"></v-app-bar-nav-icon>
         <img  src="/favicon.ico"></img>
         <v-toolbar-title>Kamusy</v-toolbar-title>
@@ -98,13 +109,13 @@
                 <div>
                     <v-menu offset-y>
                         <template v-slot:activator="{ on, attrs }">
-                            <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                            <v-btn id="btn-profile" color="primary" dark v-bind="attrs" v-on="on">
                                 <v-icon>mdi-account</v-icon>
                             </v-btn>
                         </template>
 
                         <v-list v-if="!is_connected">
-                            <v-list-item
+                            <v-list-item id="list-item-dd"
                             v-for="(item, index) in items_account_menu_disconnected"
                                 :key="index"
                                 :to="item.to"
@@ -113,7 +124,7 @@
                                 <v-list-item-icon>
                                     <v-icon>{{ item.icon }}</v-icon>
                                 </v-list-item-icon>
-                                <v-list-item-title  style="color: white;">
+                                <v-list-item-title  style="">
                                     {{ item.title }}
                                 </v-list-item-title>
                             </v-list-item>
@@ -150,7 +161,7 @@
         <div class="col-n cols">
 
             <!-- nav bar -->
-            <v-navigation-drawer id="nav-bar" v-model="drawer" app style="transform: translate(0%) !important;">
+            <v-navigation-drawer id="nav-bar" v-bind:class="classObject" v-model="drawer" app style="transform: translate(0%) !important;">
               <v-list-item>
                 <v-list-item-content>
                   <v-row>
@@ -184,14 +195,8 @@
             <!-- end nav bar -->
         </div>
 
-        <div class="col-b cols">
-            <v-container class="" style="" >
-                <v-row>
-                    <v-col class="" style="">
-                        <router-view style=""></router-view>
-                    </v-col>
-                </v-row>
-            </v-container>
+        <div class="col-router">
+            <router-view style=""></router-view>
         </div>
     </div>
 
@@ -202,6 +207,7 @@
 import { mapGetters } from "vuex";
 import $ from 'jquery'; // ** n'oubliez pas d'ajouter jquery au module (car ce n'est pas dèja le cas)
 // import Chart from 'chart.js';
+import Vue from 'vue'
 
 export default {
   computed: {
@@ -234,18 +240,22 @@ export default {
     ],
     items_account_menu_disconnected: [
       { title: "Se connecter", icon: "mdi-login", to: "/login" },
-      { title: "S'inscrire", icon: "mdi-account-add", to: "" },
+      { title: "S'inscrire", icon: "mdi-account-add", to: "/registration" },
     ],
     items_account_menu_connected: [
       { title: "Se déconnecter", icon: "mdi-logout", to: "/logout" },
     ],
+    classObject: {
+        active: false,
+        'text-danger': false,
+        'login-page-active': false,
+    }
   }),
   methods: {
     disconnect: () => {
       this.$store.dispatch("store_account/disconnect");
     },
     updateBar() {
-        console.log("updateBar");
         if( ! this.openLeftBar ){
 
             $(".v-navigation-drawer__content").addClass("closed");
@@ -273,6 +283,29 @@ export default {
         this.openLeftBar = !this.openLeftBar;
         this.updateBar(); 
     },
+    init () {
+        var this_vue = this
+        $( document ).ready(function() {
+            console.log("ready", $('a[href="#/login"]'))
+            $('a[href="#/login"]').on("click", function () {
+                console.log("coooo")
+                $("nav.v-navigation-drawer").css("display", "none");
+                $("header").css("display", "none");
+            });
+
+            Vue.nextTick(() => {
+                console.log("ready", $('a[href="#/login"]'))
+                console.log("url", window.location.hash)
+            });
+
+            if (window.location.hash == "#/login" || window.location.hash == "#/registration") {
+                this_vue.classObject["login-page-active"] = true
+            }
+            else {
+                this_vue.classObject["login-page-active"] = false;
+            }
+        });
+    }
   },
     mounted() {
         this.$store.dispatch("store_account/load_token");
@@ -281,14 +314,39 @@ export default {
         // js and css change property
         $("nav.v-navigation-drawer").css("left", "0px");
         this.closeLeftBar();
-        var thise = this;
+        var this_vue = this;
         $(window).resize(function () {
-            thise.updateBar();
+            this_vue.updateBar();
         });
         document.getElementById("nav-bar").addEventListener('DOMAttrModified', function(e){
-            thise.updateBar();
+            this_vue.updateBar();
         }, true);
+
+        this.$nextTick(function () {
+            this_vue.init();
+            $("#btn-profile").on("click", function(){
+                $('a[href="#/login"], a[href="#/registration"]').on("click", function () {
+                    this_vue.classObject["login-page-active"] = true
+                });
+            })
+        });
+
+        const urlChange = () => {
+            if (window.location.hash == "#/login" || window.location.hash == "#/registration") {
+                this_vue.classObject["login-page-active"] = true
+            }
+            else {
+                this_vue.classObject["login-page-active"] = false;
+            }
+        };
+
+        window.addEventListener('popstate', urlChange);
+
+        // Useful for cleanup when component is destroyed
+        this.cleanup = urlChange;
+
     },
+
 };
 
 

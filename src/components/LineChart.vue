@@ -9,6 +9,7 @@
     :styles="styles"
     :width="width"
     :height="height"
+    :scales-p="scales"
   />
 </template>
 
@@ -47,6 +48,58 @@ export default {
       type: String,
       default: 'line-chart'
     },
+    chartData: {
+      type: Object,
+      default: () => ({
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [
+          {
+            label: 'Data One',
+            backgroundColor: 'white',
+            borderColor: 'white',
+            borderWidth: 3,
+            pointStyle: 'rectRot',
+            pointRadius: 5,
+            pointBorderColor: 'white',
+            color: 'white',
+            data: [40, 39, 10, 40, 39, 80, 40]
+          }
+        ]
+      }),
+    },
+    scales: {
+      type: Object,
+      default: () => ({
+        yAxis: {
+          grid: {
+            borderDash: [4],
+            borderColor: "white",
+            color: 'white',
+            display: true,
+            drawBorder: false,
+            drawOnChartArea: true,
+            drawTicks: true,
+          },
+          ticks: {
+              backdropColor: "white",
+              textStrokeColor: 'white',
+              color: 'white',
+              fontColor: 'white',
+          }
+        },
+        xAxis: {
+          grid: {
+            display: false,
+          },
+          ticks: {
+              backdropColor: "white",
+              textStrokeColor: 'white',
+              color: 'white',
+              fontColor: 'white',
+          }
+        }
+      })
+    },
     datasetIdKey: {
       type: String,
       default: 'label'
@@ -65,31 +118,17 @@ export default {
     },
     styles: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     },
     plugins: {
       type: Array,
       default: () => []
     }
+
   },
   data() {
     return {
-      chartData: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-          {
-            label: 'Data One',
-            backgroundColor: 'white',
-            borderColor: 'white',
-            borderWidth: 3,
-            pointStyle: 'rectRot',
-            pointRadius: 5,
-            pointBorderColor: 'white',
-            color: 'white',
-            data: [40, 39, 10, 40, 39, 80, 40]
-          }
-        ]
-      },
+      
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
@@ -104,36 +143,6 @@ export default {
             to: 0.5,
             loop: true
           }
-        },
-        scales: {
-          yAxis: {
-            grid: {
-              borderDash: [4],
-              borderColor: "white",
-              color: 'white',
-              display: true,
-              drawBorder: false,
-              drawOnChartArea: true,
-              drawTicks: true,
-            },
-            ticks: {
-                backdropColor: "white",
-                textStrokeColor: 'white',
-                color: 'white',
-                fontColor: 'white',
-            },
-          },
-          xAxis: {
-            grid: {
-              display: false,
-            },
-            ticks: {
-                backdropColor: "white",
-                textStrokeColor: 'white',
-                color: 'white',
-                fontColor: 'white',
-            },
-          },
         },
         line: {
           borderWidth: 5,
