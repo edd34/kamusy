@@ -15,7 +15,7 @@
           </template>
         </v-banner>
 
-        <h1 style="text-align: center;" v-if="!is_connected">Inscrivez-vous</h1>
+        <h1 class="white-font" style="text-align: center;" v-if="!is_connected">Inscrivez-vous</h1>
 
         <v-container id="cont-form-connexion">
           <form>
@@ -86,7 +86,7 @@
   <!-- <img style="max-width: 100%; border-radius: 20px; position: absolute; top:0px; left: 0px;" src="https://mobimg.b-cdn.net/v3/fetch/87/87c93aa33275b4c8c73637ad3fbee836.jpeg?w=1470&r=0.5625"> -->
   </v-row>
 
-  <div id="back" style="position: absolute; width:50%; height: 100%; left: 0; top: 0; background-color: #f0f2f5; z-index: 0;">
+  <div id="back">
     <div id="triangle-code"></div>
 
   </div>

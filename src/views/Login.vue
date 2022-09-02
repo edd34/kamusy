@@ -3,7 +3,7 @@
     display : inline-block;
     height : 0;
     width : 0;
-    border-top : 100vh solid #f0f2f5;
+    border-top : 100vh solid #1e1e2f;
     border-right : 150px solid transparent;
 
     position: relative;
@@ -37,13 +37,22 @@
     padding: 0;
   }
 
+  fieldset {
+    border-color: white !important;
+  }
+
+  #submit-connexion {
+    height: 50px;
+  }
+
+  /* BACKGROUND FIGURE */
   #back {
     position: absolute; 
     width:50%; 
     height: 100%; 
     left: 0; 
     top: 0; 
-    background-color: #f0f2f5; 
+    background-color: #1e1e2f; 
     z-index: 0;
   }
 
@@ -66,7 +75,7 @@
           </template>
         </v-banner>
 
-        <h1 style="text-align: center;" v-if="!is_connected">Connectez-vous</h1>
+        <h1 class="white-font" style="text-align: center;" v-if="!is_connected">Connectez-vous</h1>
 
         <v-container id="cont-form-connexion">
           <form>
