@@ -10,6 +10,7 @@
     .v-sheet.v-app-bar.v-toolbar:not(.v-sheet--outlined) {
         box-shadow: inherit !important;
         background-color: #f0f2f5 !important;
+        background-color: #1e1e2f !important;
         position: inherit !important;
         flex: inherit !important;
     }
@@ -25,6 +26,7 @@
         /*box-shadow: gray 1px 1px 4px 1px;*/
         /*box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, .1);*/
         margin-left: 10px;
+        background-color: inherit !important;
     }
     nav.v-navigation-drawer.login-page-active {
         display: none;
@@ -35,12 +37,32 @@
         opacity: 0.3;
     }
 
+    .theme--light.v-input, .theme--light.v-input:focus, 
+    .theme--light.v-select::placeholder,
+    .theme--light.v-icon,
+    label.theme--light {
+        color: white !important;
+        caret-color:  blue !important;
+    }
+    .theme--light.v-text-field > .v-input__control > .v-input__slot::before {
+        border-color: white !important;
+    }
+    button:disabled .v-btn__content .v-icon::before,
+    button:disabled .v-btn__content .v-icon::after,
+    button:disabled .v-btn__content {
+        color: grey;
+    }
+
+    .v-select::placeholder, .v-select {
+        color: white !important;
+    }
+
     /* when bar closed */
     .v-navigation-drawer__content.closed .theme--light.v-list-item--active:hover::before, .v-navigation-drawer__content.closed .theme--light.v-list-item--active::before {
         width: 200px;
         background-color: #f0f2f5;
+        background-color: #1e1e2f;
         opacity: 1;
-
     }
 
     .v-navigation-drawer__content.closed .v-list .v-list-item--active {
@@ -50,6 +72,7 @@
 
     .v-navigation-drawer__content.closed .v-list .v-list-item--active .v-icon {
         color: black !important;
+        color: white !important;
     }
 
     /* Global */
@@ -64,11 +87,13 @@
 
     .v-navigation-drawer__content {
         background-image: linear-gradient(195deg,#42424a,#191919) !important;
+        background-image: linear-gradient(195deg,#27293d,#191919) !important;
+        /*background: linear-gradient(0deg,#389466,#42b883) !important;*/
     }
 
     /*background*/
     #inspire {
-        background-color: #f0f2f5 !important;
+        background-color: #1e1e2f !important;
         background-image: inherit;
     }
 
@@ -92,6 +117,10 @@
         color: white !important;
     }
 
+    .white-font {
+        color: white !important;
+    }
+
     /*-- End Other --*/
 
 </style>
@@ -101,9 +130,9 @@
 
     <!-- header -->
     <v-app-bar app style="left: 0px !important" v-bind:class="classObject">
-        <v-app-bar-nav-icon @click="closeLeftBar"></v-app-bar-nav-icon>
-        <img  src="/favicon.ico"></img>
-        <v-toolbar-title>Kamusy</v-toolbar-title>
+        <v-app-bar-nav-icon class="white-font" @click="closeLeftBar"></v-app-bar-nav-icon>
+        <!-- <img  src="/favicon.ico"></img> -->
+        <v-toolbar-title class="white-font">Kamusy</v-toolbar-title>
         <v-row>
             <v-col align="right">
                 <div>

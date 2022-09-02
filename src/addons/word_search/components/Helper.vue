@@ -35,8 +35,8 @@
         </div>
 
         <div class="col mb-5">
-          <h2>Mots : {{ this.$route.query.lang }}</h2>
-          <div class="words">
+          <h2 class="white-font">Mots : {{ this.$route.query.lang }}</h2>
+          <div class="words white-font">
             <span
               v-for="word in usedWords"
               :key="word"
@@ -48,7 +48,7 @@
           <!-- <h2 class="mt-4">Timer</h2>
           <span>{{ displayTime }}</span> -->
 
-          <h2 class="mt-4">Partie</h2>
+          <h2 class="mt-4 white-font">Partie</h2>
           <div class="btn btn-primary mb-2 d-block" @click="rebuildGrid()">
             Nouvelle partie
           </div>

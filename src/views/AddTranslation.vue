@@ -1,6 +1,9 @@
 <template>
-  <div>
+  <v-container class="bloc">
+  <div class="">
+    
     <v-banner
+      class="white-font"
       v-model="v0"
       two-line
       transition="slide-y-transition"
@@ -12,10 +15,11 @@
         <v-btn text color="primary" @click="dismiss"> Effacer </v-btn>
       </template>
     </v-banner>
-    <v-container class="grey lighten-5">
+
+    <v-container class="">
       <v-row align="center" no-gutters>
         <v-col>
-          <v-select
+          <v-select style="color: white;"
             v-model="language_src"
             :items="this.list_language"
             @change="selectSrcLanguage"
@@ -47,7 +51,7 @@
     </v-container>
 
     <!-- Input source language -->
-    <v-container class="grey lighten-5 mb-6">
+    <v-container class=" mb-6">
       <v-card-text>
         <v-text-field
           v-model="word_source"
@@ -57,7 +61,7 @@
       </v-card-text>
     </v-container>
     <!-- Display translation -->
-    <v-container grey lighten-5 mb-6>
+    <v-container  mb-6>
       <v-textarea
         v-model="word_destination"
         filled
@@ -78,7 +82,7 @@
             :loading="add_translation_loading"
             :disabled="!is_connected"
             color="green"
-            class="ma-2 white--text"
+            class="ma-2 white--text white-font"
             @click="add_translation"
           >
             Ajouter
@@ -96,7 +100,11 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+  
+
   </div>
+  </v-container>
 </template>
 
 <script>

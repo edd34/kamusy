@@ -37,6 +37,7 @@
         box-shadow: 0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06);
         border-radius: 10px;
         background-color: white;
+        background: #27293d;
     }
 
     /* Trauction */
@@ -53,7 +54,7 @@
     .checked-word > div {
         padding: 10px 5px 10px 5px;
         /*background-image: linear-gradient(195deg,#66bb6a,#43a047);*/
-        background-color: white;
+        background-image: linear-gradient(195deg,#42424a,#191919);
     }
 
     .add-word > div {
@@ -65,7 +66,7 @@
 
 <template>
     <div>
-        <v-container class="cont-all " style="" >
+        <v-container class="cont-all " dark style="" >
             <v-row class="">
 
                 <!-- Traduction -->
@@ -74,7 +75,7 @@
                         <v-container class="">
                             <v-row align="center" no-gutters>
                                 <v-col>
-                                    <v-select
+                                    <v-select class="white-font"
                                     v-model="language_src"
                                     :items="this.list_language"
                                     @change="selectSrcLanguage"
@@ -188,7 +189,7 @@
                         <div class="checked-word bloc " style="min-width: 100px;">
                             <!-- Mots valider -->
                             <div class="" style="width:100%; height: 200px; overflow: hidden;">
-                                <LineChart :chart-id="chartID2" :chart-data="chartData2" :scales-p="scales2" />
+                                <LineChart :chart-id="chartID2" :chart-data="chartData2" />
                             </div>
                         </div>
 
@@ -262,47 +263,17 @@ export default {
         datasets: [
           {
             label: 'Data two',
-            backgroundColor: 'black',
-            borderColor: 'black',
+            backgroundColor: 'white',
+            borderColor: 'white',
             borderWidth: 3,
             pointStyle: 'rectRot',
             pointRadius: 5,
-            pointBorderColor: 'black',
-            color: 'black',
+            pointBorderColor: 'white',
+            color: 'white',
             data: [20, 39, 80, 40, 39, 80, 40]
           }
         ]
-      },
-      scales2: {
-          yAxis: {
-            grid: {
-              borderDash: [4],
-              borderColor: "black",
-              color: 'black',
-              display: true,
-              drawBorder: false,
-              drawOnChartArea: true,
-              drawTicks: true,
-            },
-            ticks: {
-                backdropColor: "black",
-                textStrokeColor: 'black',
-                color: 'black',
-                fontColor: 'black',
-            },
-          },
-          xAxis: {
-            grid: {
-              display: false,
-            },
-            ticks: {
-                backdropColor: "black",
-                textStrokeColor: 'black',
-                color: 'black',
-                fontColor: 'black',
-            },
-          },
-        }
+    },
     };
   },
   methods: {

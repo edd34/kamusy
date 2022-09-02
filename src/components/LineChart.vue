@@ -147,6 +147,36 @@ export default {
         line: {
           borderWidth: 5,
         },
+        scales: {
+          yAxis: {
+            grid: {
+              borderDash: [4],
+              borderColor: "white",
+              color: 'white',
+              display: true,
+              drawBorder: false,
+              drawOnChartArea: true,
+              drawTicks: true,
+            },
+            ticks: {
+                backdropColor: "white",
+                textStrokeColor: 'white',
+                color: 'white',
+                fontColor: 'white',
+            }
+          },
+          xAxis: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+                backdropColor: "white",
+                textStrokeColor: 'white',
+                color: 'white',
+                fontColor: 'white',
+            }
+          }
+        },
         plugins: {
           legend: {
             display: false,
