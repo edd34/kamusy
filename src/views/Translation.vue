@@ -1,5 +1,10 @@
 <style type="text/css">
 
+    .cont-all {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .content-bloc {
         margin-top: auto; 
         margin-bottom: auto;
@@ -17,8 +22,8 @@
         justify-content: space-between;
     }
     .content-bloc-other {
-        padding: 20px;
-        flex: 1;
+        /*padding: 20px;*/
+        flex: 1.02;
     }
 
     .col-router {
@@ -42,7 +47,7 @@
 
     /* Trauction */
     .bloc-1 {
-        padding: 15px !important;
+        /*padding: 15px !important;*/
         min-height: 420px !important;
     }
     .bloc-1 > div {
@@ -65,8 +70,8 @@
 </style>
 
 <template>
-    <div>
-        <v-container class="cont-all " dark style="" >
+    <div class="col-b" style="width: 100%">
+        <v-container class="cont-all">
             <v-row class="">
 
                 <!-- Traduction -->
@@ -174,7 +179,7 @@
                 <!-- Bloc graphique et autres -->
                 <div class="content-bloc-other " style="">
                     <div class="">
-                    <v-row class="" style="">
+                    <v-row class="custom-row" style="">
                         <v-col class="bloc  ">
                             <!-- Dictionnaire -->
                             <div class="dico" style="width:100%; height: 200px;">
@@ -184,18 +189,18 @@
                     </v-row>
 
                     <!-- blocs words graph -->
-                    <v-row class="content-bloc-words ">
+                    <v-row class="content-bloc-words custom-row">
 
                         <div class="checked-word bloc " style="min-width: 100px;">
                             <!-- Mots valider -->
-                            <div class="" style="width:100%; height: 200px; overflow: hidden;">
+                            <div class="" style="width:100%; overflow: hidden;">
                                 <LineChart :chart-id="chartID2" :chart-data="chartData2" />
                             </div>
                         </div>
 
                         <div class="add-word bloc " style="min-width: 100px;" >
                             <!-- Mots ajouter -->
-                            <div style="width:100%; height: 200px; overflow: hidden;">
+                            <div style="width:100%; overflow: hidden;">
                                 <!-- <BarChart />  -->
                                 <LineChart  />
                             </div>
@@ -337,21 +342,27 @@ export default {
           .finally(() => (this.isWordLoading = false));
       }
     },
-  },
-  mounted() {
-    $(window).resize(function() {
+    do_perfect_square () {
         // To make perfect square
-        if( parseInt($(".col-b > .container").css("width").replace("px", "")) > 1040 ) {
+        if( parseInt($(".col-b > .container").css("width").replace("px", "")) > 1000 ) {
             // Traduction
             var width = parseInt($(".bloc-1").css("width").replace("px", ""));
             $(".bloc-1").css("height", width + "px");
+            $(".content-bloc-other").css("width", width + "px !important");
 
             // dico
             var cont_heigth = parseInt($(".bloc-1").css("height").replace("px", ""));
-            var cont_other_width = parseInt($(".content-bloc-words").css("height").replace("px", ""));
+            var cont_words_width = parseInt($(".content-bloc-words").css("height").replace("px", ""));
             // TODO : make padding (12 - 20 + 5) get by css js
-            $(".dico").css("height", (cont_heigth - cont_other_width - 12 - 20 + 5) + "px");
+            $(".dico").css("height", (cont_heigth - cont_words_width - 10) + "px");
         }
+    },
+  },
+  mounted() {
+    var view = this;
+    this.do_perfect_square();
+    $(window).resize(function() {
+        view.do_perfect_square();
     });
   },
   watch: {

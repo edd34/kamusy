@@ -19,7 +19,7 @@
     padding: 0 150px 0 100px;
     margin-top: 50vh;
     transform: translateY(-25vh);
-    height: 100vh;
+    /*height: calc(100vh - 80px);*/
   }
 
   #cont-form-connexion {
@@ -30,7 +30,7 @@
     padding: 0;
     margin: 0;
     width: 100%;
-    height: 100vh;
+    height: 10vh;
   }
 
   .col-n {
@@ -57,6 +57,7 @@
   }
 
   #inspire.login-page-active {
+    overflow: hidden !important;
     background-image: url("https://images8.alphacoders.com/648/648922.jpg");
   }
 

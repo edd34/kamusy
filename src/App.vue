@@ -15,6 +15,9 @@
     }
 
     /*--Surcharge--*/
+    .v-application--wrap {
+        min-height: inherit !important;
+    }
     
     /* app-bar header */
     .v-sheet.v-app-bar.v-toolbar:not(.v-sheet--outlined) {
@@ -47,23 +50,31 @@
 
     }
 
+    #btn-profile {
+        min-width: inherit !important;
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 50px !important;
+        background-color: black !important;
+    }
+
     /* nav-bar */
     nav.v-navigation-drawer {
-        height: calc(100% - 80px) !important;
-        height: calc(100vh - 80px) !important;
+        /*height: calc(100% - 80px) !important;*/
+        height: calc(100vh - 90px) !important;
         border-radius: 10px;
-        /*box-shadow: gray 1px 1px 4px 1px;*/
-        /*box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, .1);*/
-        margin-left: 10px;
-        background-color: inherit !important;
+        background-color: black !important;
     }
     nav.v-navigation-drawer.login-page-active {
         display: none;
     }
+    .v-list--nav.v-list--dense .v-list-item:not(:last-child):not(:only-child), .v-list--nav .v-list-item--dense:not(:last-child):not(:only-child), .v-list--rounded.v-list--dense .v-list-item:not(:last-child):not(:only-child), .v-list--rounded .v-list-item--dense:not(:last-child):not(:only-child) {
+        margin-bottom: 18px !important;
+    }
 
     .theme--light.v-list-item--active:hover::before, .theme--light.v-list-item--active::before{
-        background-color: currentColor;
-        opacity: 0.3;
+        background-color: white;
+        opacity: 0.25;
     }
 
     .theme--light.v-input, .theme--light.v-input:focus, 
@@ -89,8 +100,8 @@
     /* when bar closed */
     .v-navigation-drawer__content.closed .theme--light.v-list-item--active:hover::before, .v-navigation-drawer__content.closed .theme--light.v-list-item--active::before {
         width: 200px;
-        background-color: #f0f2f5;
-        background-color: var(--backgroundColor) ;
+        /*background-color: #f0f2f5;*/
+        /*background-color: var(--backgroundColor) ;*/
         opacity: 1;
     }
 
@@ -115,9 +126,10 @@
     }
 
     .v-navigation-drawer__content {
-        background-image: linear-gradient(195deg,#42424a,#191919) !important;
-        background-image: linear-gradient(195deg,#27293d,#191919) !important;
+        /*background-image: linear-gradient(195deg,#42424a,#191919) !important;*/
+        /*background-image: linear-gradient(195deg,#27293d,#191919) !important;*/
         /*background: linear-gradient(0deg,#389466,#42b883) !important;*/
+        /*background-color: #1e1e2f;*/
     }
 
     /*background*/
@@ -127,10 +139,18 @@
         border-radius: 30px;
         border: solid 15px black;
         margin: 15px;
-        overflow: hidden;
+        overflow: auto;
+        height: calc(100vh - 30px);
+        padding: 15px;
+    }
+    #inspire.login-page-active {
+        padding: 0;
     }
 
-    
+    /*?*/
+    .custom-row {
+        margin: 0 !important;
+    }
 
     /*--End Surcharge--*/
 
@@ -161,61 +181,7 @@
 <template>
     <v-app id="inspire" v-bind:class="classObject">
 
-    <!-- header -->
-    <v-app-bar app style="left: 0px !important" v-bind:class="classObject">
-        <v-app-bar-nav-icon id="icon-nav" class="" @click="closeLeftBar"></v-app-bar-nav-icon>
-        <!-- <img  src="/favicon.ico"></img> -->
-        <v-toolbar-title class="">Kamusy</v-toolbar-title>
-        <v-row>
-            <v-col align="right">
-                <div>
-                    <v-menu offset-y>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn id="btn-profile" color="primary" dark v-bind="attrs" v-on="on">
-                                <v-icon>mdi-account</v-icon>
-                            </v-btn>
-                        </template>
-
-                        <v-list v-if="!is_connected">
-                            <v-list-item id="list-item-menu-profile"
-                            v-for="(item, index) in items_account_menu_disconnected"
-                                :key="index"
-                                :to="item.to"
-                                link
-                            >
-                                <v-list-item-icon>
-                                    <v-icon>{{ item.icon }}</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-title  style="">
-                                    {{ item.title }}
-                                </v-list-item-title>
-                            </v-list-item>
-                        </v-list>
-
-                        <v-list v-if="is_connected">
-                            <v-list-item>
-                                <v-list-item-icon>
-                                    <v-icon>mdi-check</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-title>Vous êtes connecté</v-list-item-title>
-                            </v-list-item>
-                            <v-list-item
-                            v-for="(item, index) in items_account_menu_connected"
-                            :key="index"
-                            :to="item.to"
-                            link
-                            >
-                                <v-list-item-icon>
-                                    <v-icon>{{ item.icon }}</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-title>{{ item.title }}</v-list-item-title>
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
-                </div>
-            </v-col>
-        </v-row>
-    </v-app-bar>
+    
     
     <!-- Block -->
     <!-- TODO : en faire une vue a part entiére -->
@@ -224,23 +190,30 @@
 
             <!-- nav bar -->
             <v-navigation-drawer id="nav-bar" v-bind:class="classObject" v-model="drawer" app style="transform: translate(0%) !important;">
-              <v-list-item>
+                
+                <!-- <v-row>
+                    <v-col cols="3" center>
+                        
+                    </v-col>
+                </v-row> -->
+
+              <!-- <v-list-item>
                 <v-list-item-content>
                   <v-row>
-                    <!-- <v-col cols="3" center>
+                    <v-col cols="3" center>
                       <v-img contains src="/favicon.ico"></v-img>
-                    </v-col> -->
+                    </v-col>
                     <v-col cols="9">
                       <v-list-item-title class="text-h6"> Kamusy </v-list-item-title>
                       <v-list-item-subtitle>
                         Le dictionnaire mahorais
-                      </v-list-item-subtitle></v-col
-                    >
+                      </v-list-item-subtitle>
+                    </v-col>
                   </v-row>
                 </v-list-item-content>
-              </v-list-item>
+              </v-list-item> -->
 
-              <v-divider></v-divider>
+              <!-- <v-divider></v-divider> -->
 
               <v-list dense nav>
                 <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
@@ -253,12 +226,76 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
+
             </v-navigation-drawer>
             <!-- end nav bar -->
+
         </div>
 
         <div class="col-router">
-            <router-view style=""></router-view>
+            <v-row class="custom-row">
+
+                <!-- header -->
+                <v-app-bar app style="left: 0px !important" v-bind:class="classObject">
+                    <v-app-bar-nav-icon id="icon-nav" class="" @click="closeLeftBar"></v-app-bar-nav-icon>
+                    <!-- <img  src="/favicon.ico"></img> -->
+                    <!-- <v-toolbar-title class="">Kamusy</v-toolbar-title> -->
+                    <v-row>
+                        <v-col align="right">
+                            <div>
+                                <v-menu offset-y>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn id="btn-profile" color="primary" dark v-bind="attrs" v-on="on">
+                                            <v-icon>mdi-account</v-icon>
+                                        </v-btn>
+                                    </template>
+
+                                    <v-list v-if="!is_connected">
+                                        <v-list-item id="list-item-menu-profile"
+                                        v-for="(item, index) in items_account_menu_disconnected"
+                                            :key="index"
+                                            :to="item.to"
+                                            link
+                                        >
+                                            <v-list-item-icon>
+                                                <v-icon>{{ item.icon }}</v-icon>
+                                            </v-list-item-icon>
+                                            <v-list-item-title  style="">
+                                                {{ item.title }}
+                                            </v-list-item-title>
+                                        </v-list-item>
+                                    </v-list>
+
+                                    <v-list v-if="is_connected">
+                                        <v-list-item>
+                                            <v-list-item-icon>
+                                                <v-icon>mdi-check</v-icon>
+                                            </v-list-item-icon>
+                                            <v-list-item-title>Vous êtes connecté</v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item
+                                        v-for="(item, index) in items_account_menu_connected"
+                                        :key="index"
+                                        :to="item.to"
+                                        link
+                                        >
+                                            <v-list-item-icon>
+                                                <v-icon>{{ item.icon }}</v-icon>
+                                            </v-list-item-icon>
+                                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
+                            </div>
+                        </v-col>
+                    </v-row>
+                </v-app-bar>
+            </v-row>
+
+            <v-row class="custom-row">
+                <router-view style=""></router-view>
+            </v-row>
+
         </div>
     </div>
 
