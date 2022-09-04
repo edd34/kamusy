@@ -1,6 +1,10 @@
 <template>
-  <div>
+  <v-container class="bloc">
+  <div class="">
+    
     <v-banner
+      style="font-weight: bold;"
+      class="white-font"
       v-model="v0"
       two-line
       transition="slide-y-transition"
@@ -12,21 +16,23 @@
         <v-btn text color="primary" @click="dismiss"> Effacer </v-btn>
       </template>
     </v-banner>
-    <v-container class="grey lighten-5">
+
+    <v-container class="" style="padding: 30px;">
       <v-row align="center" no-gutters>
         <v-col>
-          <v-select
+          <v-select style="color: white;"
             v-model="language_src"
             :items="this.list_language"
             @change="selectSrcLanguage"
             item-text="name"
             item-value="id"
             label="Choisissez"
-            single-line
+            rounded
+            filled
           ></v-select>
         </v-col>
 
-        <v-col align="center"
+        <v-col style="height: 60px;" align="center"
           ><v-btn icon @click="swapLanguage">
             <v-icon>mdi-swap-horizontal</v-icon>
           </v-btn>
@@ -40,31 +46,38 @@
             item-text="name"
             item-value="id"
             label="Choisissez"
-            single-line
+            rounded
+            filled
           ></v-select>
         </v-col>
       </v-row>
     </v-container>
 
     <!-- Input source language -->
-    <v-container class="grey lighten-5 mb-6">
+    <v-container mb-6>
       <v-card-text>
         <v-text-field
           v-model="word_source"
+          filled
           label="Mot à traduire"
           hide-details="auto"
+          rounded
         ></v-text-field>
       </v-card-text>
     </v-container>
+
     <!-- Display translation -->
-    <v-container grey lighten-5 mb-6>
-      <v-textarea
-        v-model="word_destination"
-        filled
-        label="Traduction"
-        auto-grow
-        row-height="10"
-      ></v-textarea>
+    <v-container  mb-6>
+      <v-card-text>
+        <v-textarea
+          v-model="word_destination"
+          filled
+          label="Traduction"
+          auto-grow
+          row-height="10"
+          rounded
+        ></v-textarea>
+      </v-card-text>
 
       <v-row>
         <v-col class="col-6" align="center">
@@ -78,7 +91,7 @@
             :loading="add_translation_loading"
             :disabled="!is_connected"
             color="green"
-            class="ma-2 white--text"
+            class="ma-2 white--text white-font"
             @click="add_translation"
           >
             Ajouter
@@ -96,7 +109,11 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+  
+
   </div>
+  </v-container>
 </template>
 
 <script>

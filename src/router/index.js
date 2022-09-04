@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Translation from '../views/Translation.vue'
 import AddTranslation from '../views/AddTranslation.vue'
 import Login from '../views/Login.vue'
+import Registration from '../views/Registration.vue'
 import Logout from '../views/Logout.vue'
 import About from '../views/About.vue'
 import MixedWord from '../../src/addons/word_search/App.vue'
@@ -29,6 +30,11 @@ const routes = [
     path: '/logout',
     name: 'Logout',
     component: Logout,
+  },
+  {
+    path: '/registration',
+    name: 'Registration',
+    component: Registration,
   },
   {
     path: '/about',
