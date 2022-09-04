@@ -3,6 +3,7 @@
   <div class="">
     
     <v-banner
+      style="font-weight: bold;"
       class="white-font"
       v-model="v0"
       two-line
@@ -16,7 +17,7 @@
       </template>
     </v-banner>
 
-    <v-container class="">
+    <v-container class="" style="padding: 30px;">
       <v-row align="center" no-gutters>
         <v-col>
           <v-select style="color: white;"
@@ -26,11 +27,12 @@
             item-text="name"
             item-value="id"
             label="Choisissez"
-            single-line
+            rounded
+            filled
           ></v-select>
         </v-col>
 
-        <v-col align="center"
+        <v-col style="height: 60px;" align="center"
           ><v-btn icon @click="swapLanguage">
             <v-icon>mdi-swap-horizontal</v-icon>
           </v-btn>
@@ -44,31 +46,38 @@
             item-text="name"
             item-value="id"
             label="Choisissez"
-            single-line
+            rounded
+            filled
           ></v-select>
         </v-col>
       </v-row>
     </v-container>
 
     <!-- Input source language -->
-    <v-container class=" mb-6">
+    <v-container mb-6>
       <v-card-text>
         <v-text-field
           v-model="word_source"
+          filled
           label="Mot à traduire"
           hide-details="auto"
+          rounded
         ></v-text-field>
       </v-card-text>
     </v-container>
+
     <!-- Display translation -->
     <v-container  mb-6>
-      <v-textarea
-        v-model="word_destination"
-        filled
-        label="Traduction"
-        auto-grow
-        row-height="10"
-      ></v-textarea>
+      <v-card-text>
+        <v-textarea
+          v-model="word_destination"
+          filled
+          label="Traduction"
+          auto-grow
+          row-height="10"
+          rounded
+        ></v-textarea>
+      </v-card-text>
 
       <v-row>
         <v-col class="col-6" align="center">

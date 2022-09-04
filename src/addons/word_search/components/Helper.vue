@@ -1,5 +1,16 @@
+<style type="text/css">
+  #app {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #app #wrapper .container {
+    padding: 10px 100px 10px 100px;
+  }
+</style>
+
 <template>
-  <div id="wrapper">
+  <div id="wrapper" class="bloc">
     <div class="container">
       <div class="row mt-3">
         <div id="wordsearch_grid">

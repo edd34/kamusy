@@ -87,11 +87,13 @@
                                     item-text="name"
                                     item-value="id"
                                     label="Choisissez"
-                                    single-line
+                                    dense
+                                    rounded
+                                    filled
                                     ></v-select>
                                 </v-col>
 
-                                <v-col align="center"
+                                <v-col style="height: 64px;" align="center"
                                 >
                                     <v-btn icon @click="swapLanguage">
                                         <v-icon>mdi-swap-horizontal</v-icon>
@@ -106,7 +108,9 @@
                                     item-text="name"
                                     item-value="id"
                                     label="Choisissez"
-                                    single-line
+                                    dense
+                                    rounded
+                                    filled
                                     ></v-select>
                                 </v-col>
                             </v-row>
@@ -115,7 +119,7 @@
                         <!-- Input source language -->
                         <v-container class=" no-wrap">
                             <v-row align="center" no-gutters>
-                                <v-col class="col-9">
+                                <v-col class="col-9" align="center">
                                     <v-autocomplete
                                     v-model="model"
                                     :items="entries"
@@ -132,10 +136,14 @@
                                     placeholder="Commencez à taper pour rechercher"
                                     prepend-icon="mdi-database-search"
                                     return-object
+                                    filled
+                                    rounded
                                     ></v-autocomplete
-                                    ></v-col>
-                                    <v-col align="center" class="col-3">
-                                        <v-btn
+                                    >
+                                </v-col>
+
+                                <v-col align="center" class="col-3" style="height: 80px;">
+                                    <v-btn
                                         align="center"
                                         :loading="isWordLoading"
                                         color="black"
@@ -159,6 +167,7 @@
                             :value="result_entries"
                             :loading="isWordLoading"
                             readonly
+                            rounded
                             ></v-textarea>
                         </v-container>
 

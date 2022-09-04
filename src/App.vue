@@ -1,7 +1,8 @@
 <style type="text/css">
 
     :root {
-        --backgroundColor: #f0f2f5; 
+        /*background: -webkit-gradient(linear,left top,left bottom,from(#1e1e2f),to(#1e1e24));*/
+        --backgroundColor: #1e1e2f; 
         /*#1e1e2f ; #f0f2f5 */
         --blocColor: #1e1e2f;
     }
@@ -15,6 +16,12 @@
     }
 
     /*--Surcharge--*/
+    a:hover{
+        text-decoration: inherit !important;
+    }
+    .theme--light.v-text-field--filled > .v-input__control > .v-input__slot {
+      background: rgba(0, 0, 0, 0.1) !important;
+    }
     .v-application--wrap {
         min-height: inherit !important;
     }
@@ -32,17 +39,17 @@
     }
     #icon-nav span i:before,
     #icon-nav span i:after {
-        color: black;
+        color: white;
     }
-    .v-menu__content {
+    .v-menu__content[role="menu"] {
         left: inherit !important;
         right: 15px !important;
         background-color: var(--blocColor);
     }
-    .v-menu__content > div {
+    .v-menu__content[role="menu"] > div {
         background-color: var(--blocColor) !important;
     }
-    .v-menu__content > div a {
+    .v-menu__content[role="menu"] > div a {
         color: white !important;
     }
 
@@ -101,7 +108,7 @@
     .v-navigation-drawer__content.closed .theme--light.v-list-item--active:hover::before, .v-navigation-drawer__content.closed .theme--light.v-list-item--active::before {
         width: 200px;
         /*background-color: #f0f2f5;*/
-        /*background-color: var(--backgroundColor) ;*/
+        background-color: var(--backgroundColor) ;
         opacity: 1;
     }
 
@@ -111,8 +118,8 @@
     }
 
     .v-navigation-drawer__content.closed .v-list .v-list-item--active .v-icon {
-        color: black !important;
-        /*color: white !important;*/
+        /*color: black !important;*/
+        color: white !important;
     }
 
     /* Global */
@@ -327,19 +334,19 @@ export default {
       },
       {
         title: "Mots mêlés 🇾🇹",
-        icon: "mdi-information",
+        icon: "mdi-all-inclusive",
         to: "/word-search-yt?lang=mahorais",
       },
       {
         title: "Mots mêlés 🇲🇬",
-        icon: "mdi-information",
+        icon: "mdi-all-inclusive",
         to: "/word-search-mg?lang=kibushi",
       },
-      { title: "À Propos", icon: "mdi-information", to: "/about" },
+      { title: "À Propos", icon: "mdi-arch", to: "/about" },
     ],
     items_account_menu_disconnected: [
       { title: "Se connecter", icon: "mdi-login", to: "/login" },
-      { title: "S'inscrire", icon: "mdi-account-add", to: "/registration" },
+      { title: "S'inscrire", icon: "mdi-account-plus", to: "/registration" },
     ],
     items_account_menu_connected: [
       { title: "Se déconnecter", icon: "mdi-logout", to: "/logout" },
