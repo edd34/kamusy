@@ -13,7 +13,7 @@ export default {
     actions: {
         async getListWords({ commit }) {
             try {
-                const newListWord = await instance.get("/words/");
+                const newListWord = await instance.get("/api/words/");
                 await commit("updateListWord", newListWord.data)
             } catch (error) {
                 console.log(error)
@@ -21,7 +21,7 @@ export default {
         },
         async addWord(state, payload) {
             try {
-                await instance.post("/words/", payload);
+                await instance.post("/api/words/", payload);
             } catch (error) {
                 console.log(error);
             }

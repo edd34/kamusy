@@ -1,5 +1,23 @@
 <style type="text/css">
 
+    /* Surcharge */
+    .theme--light.v-chip:not(.v-chip--active),
+    .theme--dark.v-chip:not(.v-chip--active) {
+        /*background-color: var(--backgroundColor);*/
+    }
+    .v-chip-dico .v-chip__content{
+        color: black !important;
+    }
+    hr[role="separator"] {
+        background-color: black;
+    }
+
+    textarea[name="input-7-1"] {
+        color: white !important;
+    }
+
+    /**/
+
     .cont-all {
         margin-left: auto;
         margin-right: auto;
@@ -12,9 +30,16 @@
         max-width: 100% !important;
         font-family: "Roboto",Helvetica,Arial,sans-serif !important;
     }
-    .content-head-blocs {
-        display: flex;
-        height: 100vh;
+    @media (min-width: 640px) {
+        .content-head-blocs {
+            display: flex;
+            height: 100vh;
+        }
+    }
+    @media (max-width: 640px) {
+        .content-head-blocs {
+            height: 0px;
+        }
     }
     .content-bloc-words {
         display: flex;
@@ -31,8 +56,18 @@
         padding: 20px;
     }
 
-    .bloc{
-        min-width: 500px;
+    @media (min-width: 500px) {
+        .bloc {
+            min-width: 500px;
+        }
+    }
+    @media (max-width: 500px) {
+        .bloc {
+            min-width: 300px;
+        }
+    }
+
+    .bloc {
         padding: 5px !important;
         flex: 1;
     }
@@ -55,16 +90,23 @@
     }
 
 
+
     /* Graphs */
+    .checked-word {
+        min-width: 220px;
+    }
     .checked-word > div {
         padding: 10px 5px 10px 5px;
         /*background-image: linear-gradient(195deg,#66bb6a,#43a047);*/
-        background-image: linear-gradient(195deg,#42424a,#191919);
+        /*background-image: linear-gradient(195deg,#42424a,#191919);*/
     }
 
+    .add-word {
+        min-width: 220px;
+    }
     .add-word > div {
         padding: 10px 5px 10px 5px;
-        background-image: linear-gradient(195deg,#42424a,#191919);
+        /*background-image: linear-gradient(195deg,#42424a,#191919);*/
     }
 
 </style>
@@ -80,7 +122,7 @@
                         <v-container class="">
                             <v-row align="center" no-gutters>
                                 <v-col>
-                                    <v-select class="white-font"
+                                    <v-select class="white--text"
                                     v-model="language_src"
                                     :items="this.list_language"
                                     @change="selectSrcLanguage"
@@ -90,6 +132,7 @@
                                     dense
                                     rounded
                                     filled
+                                    solo
                                     ></v-select>
                                 </v-col>
 
@@ -111,6 +154,7 @@
                                     dense
                                     rounded
                                     filled
+                                    solo
                                     ></v-select>
                                 </v-col>
                             </v-row>
@@ -119,30 +163,34 @@
                         <!-- Input source language -->
                         <v-container class=" no-wrap">
                             <v-row align="center" no-gutters>
-                                <v-col class="col-9" align="center">
+                                <!-- <v-col class="col-9" align="center"> -->
                                     <v-autocomplete
+                                    id="auto-trad"
                                     v-model="model"
                                     :items="entries"
-                                    @blur="get_translated_word()"
+                                    @change="get_translated_word()"
                                     :loading="isLoading"
                                     :search-input.sync="search"
                                     color="blue"
+                                    item-color="blue"
+                                    background-color="blue"
                                     hide-no-data
-                                    hide-selected
-                                    clearable
                                     item-text="name"
                                     item-value="id"
                                     label="Traduction"
                                     placeholder="Commencez à taper pour rechercher"
-                                    prepend-icon="mdi-database-search"
                                     return-object
+                                    
+                                    chips
+                                    clearable
+                                    deletable-chips
                                     filled
                                     rounded
-                                    ></v-autocomplete
-                                    >
-                                </v-col>
+                                    multiple
+                                    ></v-autocomplete>
+                                <!-- </v-col> -->
 
-                                <v-col align="center" class="col-3" style="height: 80px;">
+                                <!-- <v-col align="center" class="col-3" style="height: 80px;">
                                     <v-btn
                                         align="center"
                                         :loading="isWordLoading"
@@ -153,15 +201,16 @@
                                         Go
                                         <v-icon right dark> mdi-auto-fix </v-icon>
                                     </v-btn>
-                                </v-col>
+                                </v-col> -->
                             </v-row>
                         </v-container>
                         <!-- Display translation -->
                         <v-container >
-                            <v-textarea
+                            <v-textarea style="color: white !important;"
+                            id="input-7-1"
                             name="input-7-1"
                             filled
-                            label="Mot traduit"
+                            label="Mots traduit"
                             auto-grow
                             row-height="10"
                             :value="result_entries"
@@ -171,8 +220,8 @@
                             ></v-textarea>
                         </v-container>
 
-                    <!-- Display description -->
-                    <!-- TODO : implement description -->
+                        <!-- Display description -->
+                        <!-- TODO : implement description -->
                         <!-- <v-container mb-6>
                             <v-textarea
                             name="input-7-1"
@@ -191,8 +240,28 @@
                     <v-row class="custom-row" style="">
                         <v-col class="bloc  ">
                             <!-- Dictionnaire -->
-                            <div class="dico" style="width:100%; height: 200px;">
-
+                            <div class="dico" style="width:100%;">
+                                <v-card-text>
+                                    <span class="subheading white--text text-h6">Synonymes</span>
+                                    <!-- <v-card-title>Synonymes</v-card-title> -->
+                                    <v-divider class="mx-1"></v-divider>
+                                    <div class="pa-2">
+                                        <v-chip-group
+                                          active-class="accent--text"
+                                          column
+                                        >
+                                            <v-chip
+                                            v-for="synonyme in dico_synonyme"
+                                            :key="synonyme"
+                                            color="blue"
+                                            class="v-chip-dico"
+                                            >
+                                                {{ synonyme }}
+                                            </v-chip>
+                                        </v-chip-group>
+                                    
+                                    </div>
+                                </v-card-text>
                             </div>
                         </v-col>
                     </v-row>
@@ -200,17 +269,16 @@
                     <!-- blocs words graph -->
                     <v-row class="content-bloc-words custom-row">
 
-                        <div class="checked-word bloc " style="min-width: 100px;">
+                        <div class="checked-word bloc " style="">
                             <!-- Mots valider -->
                             <div class="" style="width:100%; overflow: hidden;">
                                 <LineChart :chart-id="chartID2" :chart-data="chartData2" />
                             </div>
                         </div>
 
-                        <div class="add-word bloc " style="min-width: 100px;" >
+                        <div class="add-word bloc " style="" >
                             <!-- Mots ajouter -->
                             <div style="width:100%; overflow: hidden;">
-                                <!-- <BarChart />  -->
                                 <LineChart  />
                             </div>
                         </div>
@@ -222,6 +290,10 @@
         </v-container>
     </div>
 </template>
+
+<script type="text/javascript">
+    
+</script>
 
 <script>
 import { mapState } from "vuex";
@@ -242,22 +314,22 @@ export default {
       is_connected: "store_account/is_connected",
     }),
     items() {
-      return this.entries;
+        return this.entries;
     },
     result_entries() {
-      if (this.translation_result) {
-        return this.translation_result
-          .map(
-            (currentValue, index) =>
-              (index + 1).toString() +
-              ". " +
-              currentValue.word_destination_name +
-              "\n"
-          )
-          .join("");
-      } else {
-        return "";
-      }
+        if (this.translation_result) {
+            return this.translation_result
+            .map(
+                (currentValue, index) =>
+                (index + 1).toString() +
+                ". " +
+                currentValue.word_destination_name +
+                "\n"
+                )
+            .join("");
+        } else {
+            return
+        }
     },
   },
   data() {
@@ -272,6 +344,17 @@ export default {
       entries: [],
       search: null,
       chartID2: "line-chart2",
+      dico_synonyme : [ //Exemple
+          'plaisir',
+          'joie',
+          'epanouissement',
+          'bonheur',
+          'amour',
+          'Shopping',
+          'Art',
+          'Tech',
+          'Creative Writing',
+        ],
       chartData2: {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [
@@ -321,35 +404,64 @@ export default {
       this.language_dst = tmp;
     },
     get_translated_word() {
-      if (this.model == "" || this.model == null) {
-        // not words typed inside traduction field
-        this.translation_result = "";
-        this.entries = [];
-        return;
-      } else {
-        this.isWordLoading = true;
-        fetch(
-          process.env.VUE_APP_API_URL +
-            "/get-translation/" +
-            this.model.id +
-            "/" +
-            this.language_src +
-            "/" +
-            this.language_dst +
-            "/"
-        )
-          .then((res) => res.json())
-          .then((res) => {
-            this.translation_result = res;
-            if (res.length == 0) {
-              // TODO translation do not exist
+        if (this.model == "" || this.model == null) {
+            // not words typed inside traduction field
+            this.translation_result = "";
+            this.entries = [];
+            return "";
+        } else {
+            this.isWordLoading = true;
+            var id_words = "";
+            for (var i = 0; i < this.model.length; i++) {
+                id_words += this.model[i].id + "_";
             }
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => (this.isWordLoading = false));
-      }
+            id_words = id_words.replace(new RegExp("_$"), "");
+
+            // fetch(
+            //     process.env.VUE_APP_API_URL +
+            //     "/get-translation/" +
+            //     this.model.id +
+            //     "/" +
+            //     this.language_src +
+            //     "/" +
+            //     this.language_dst +
+            //     "/"
+            // )
+            
+            fetch(
+                process.env.VUE_APP_API_URL +
+                "/get-translation-multi/" +
+                id_words +
+                "/" +
+                this.language_src +
+                "/" +
+                this.language_dst +
+                "/"
+            )
+            .then((res) => res.json())
+            .then((res) => {
+                this.translation_result = res;
+                if (res.length == 0) {
+                    // TODO translation do not exist
+                }
+            })
+            .catch((err) => {
+                console.log("Error get_translated_word() :", err);
+            })
+            .finally(() => {
+                // demo
+                var array = [];
+                var nb = Math.floor(Math.random() * 10) + 1;
+                for (var i = 0; i < nb; i++) {
+                    array.push("Synonymes " + i)
+                }
+                this.dico_synonyme = array;
+                this.isWordLoading = false;
+            });
+
+
+
+        }
     },
     do_perfect_square () {
         // To make perfect square
@@ -361,9 +473,9 @@ export default {
 
             // dico
             var cont_heigth = parseInt($(".bloc-1").css("height").replace("px", ""));
-            var cont_words_width = parseInt($(".content-bloc-words").css("height").replace("px", ""));
-            // TODO : make padding (12 - 20 + 5) get by css js
-            $(".dico").css("height", (cont_heigth - cont_words_width - 10) + "px");
+            var cont_words_height = parseInt($(".content-bloc-words").css("height").replace("px", ""));
+            // TODO : make padding (10) get by css js
+            $(".dico").css("height", (cont_heigth - cont_words_height - 10) + "px");
         }
     },
   },
@@ -373,12 +485,22 @@ export default {
     $(window).resize(function() {
         view.do_perfect_square();
     });
+
+    $(".btn-word").on("click", function(e) {
+        console.log($(this).attr("data-word"), $(this).attr("data-id"))
+    })
+
+    // TODO : in mode v2 get word with editing textarea
+    $("#input-7-1").on("click", function(e) {
+        console.log(e.currentTarget.selectionStart)
+    })
+
   },
   watch: {
     search(val) {
       // Items have already been loaded
       // if (this.items.length > 0) return
-      this.translation_result = "";
+      // this.translation_result = "";
       if (val === null || val == "") return;
 
       // Items have already been requested
@@ -400,7 +522,7 @@ export default {
       )
         .then((res) => res.json())
         .then((res) => {
-          this.entries = res;
+            this.entries = res.concat(this.model);
         })
         .catch((err) => {
           console.log(err);

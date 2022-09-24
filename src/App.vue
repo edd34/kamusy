@@ -1,7 +1,6 @@
 <style type="text/css">
 
     :root {
-        /*background: -webkit-gradient(linear,left top,left bottom,from(#1e1e2f),to(#1e1e24));*/
         --backgroundColor: #1e1e2f; 
         /*#1e1e2f ; #f0f2f5 */
         --blocColor: #1e1e2f;
@@ -19,8 +18,9 @@
     a:hover{
         text-decoration: inherit !important;
     }
-    .theme--light.v-text-field--filled > .v-input__control > .v-input__slot {
-      background: rgba(0, 0, 0, 0.1) !important;
+    .theme--light.v-text-field--filled > .v-input__control > .v-input__slot, 
+    .theme--dark.v-text-field--filled > .v-input__control > .v-input__slot  {
+        background: rgba(0, 0, 0, 0.1) !important;
     }
     .v-application--wrap {
         min-height: inherit !important;
@@ -66,11 +66,21 @@
     }
 
     /* nav-bar */
+    @media (min-width: 640px) {
+        nav.v-navigation-drawer {
+            height: calc(100vh - 90px) !important;
+        }
+    }
+    @media (max-width: 640px) {
+        nav.v-navigation-drawer {
+            height: 100vh !important;
+            width: 35vh !important;
+        }
+    }
     nav.v-navigation-drawer {
-        /*height: calc(100% - 80px) !important;*/
-        height: calc(100vh - 90px) !important;
+        /*height: calc(100vh - 90px) !important;*/
         border-radius: 10px;
-        background-color: black !important;
+        background-color: #27293d !important;
     }
     nav.v-navigation-drawer.login-page-active {
         display: none;
@@ -78,20 +88,32 @@
     .v-list--nav.v-list--dense .v-list-item:not(:last-child):not(:only-child), .v-list--nav .v-list-item--dense:not(:last-child):not(:only-child), .v-list--rounded.v-list--dense .v-list-item:not(:last-child):not(:only-child), .v-list--rounded .v-list-item--dense:not(:last-child):not(:only-child) {
         margin-bottom: 18px !important;
     }
+    .v-navigation-drawer__border {
+        display: none;
+    }
+    nav.v-navigation-drawer div a div.v-list-item{
+        font-weight: inherit !important;
+    }
 
-    .theme--light.v-list-item--active:hover::before, .theme--light.v-list-item--active::before{
-        background-color: white;
+    .theme--light.v-list-item--active:hover::before, .theme--light.v-list-item--active::before,
+    .theme--dark.v-list-item--active:hover::before, .theme--dark.v-list-item--active::before{
+        background-color: #425b7b;
         opacity: 0.25;
     }
 
     .theme--light.v-input, .theme--light.v-input:focus, 
     .theme--light.v-select::placeholder,
     .theme--light.v-icon,
-    label.theme--light {
+    label.theme--light,
+    .theme--dark.v-input, .theme--dark.v-input:focus, 
+    .theme--dark.v-select::placeholder,
+    .theme--dark.v-icon,
+    label.theme--dark {
         color: white !important;
         caret-color:  blue !important;
     }
-    .theme--light.v-text-field > .v-input__control > .v-input__slot::before {
+    .theme--light.v-text-field > .v-input__control > .v-input__slot::before,
+    .theme--dark.v-text-field > .v-input__control > .v-input__slot::before {
         border-color: white !important;
     }
     button:disabled .v-btn__content .v-icon::before,
@@ -105,7 +127,10 @@
     }
 
     /* when bar closed */
-    .v-navigation-drawer__content.closed .theme--light.v-list-item--active:hover::before, .v-navigation-drawer__content.closed .theme--light.v-list-item--active::before {
+    .v-navigation-drawer__content.closed .theme--light.v-list-item--active:hover::before, 
+    .v-navigation-drawer__content.closed .theme--light.v-list-item--active::before,
+    .v-navigation-drawer__content.closed .theme--dark.v-list-item--active:hover::before, 
+    .v-navigation-drawer__content.closed .theme--dark.v-list-item--active::before {
         width: 200px;
         /*background-color: #f0f2f5;*/
         background-color: var(--backgroundColor) ;
@@ -126,7 +151,14 @@
     .v-list-item--link::before {
         opacity: 1;
         background-color: inherit;
-        border-radius: 20px 0px 0px 20px !important;
+        border-radius: 20px 10px 10px 20px !important;
+        transition-delay: 0s;
+        transition-duration: 0s;
+    }
+    .v-list-item--link:hover::before {
+        background-color: white;
+        transition-delay: 0s;
+        transition-duration: 0s;
     }
     .v-list-item__content {
         z-index: 1;
@@ -140,15 +172,20 @@
     }
 
     /*background*/
+    @media (min-width: 640px) {
+        #inspire {
+            border-radius: 30px;
+            border: solid 15px black;
+            margin: 15px;
+            overflow: auto;
+            height: calc(100vh - 30px);
+            padding: 15px;
+        }
+    }
     #inspire {
         background-color: var(--backgroundColor) !important;
         background-image: inherit;
-        border-radius: 30px;
-        border: solid 15px black;
-        margin: 15px;
-        overflow: auto;
-        height: calc(100vh - 30px);
-        padding: 15px;
+        
     }
     #inspire.login-page-active {
         padding: 0;
@@ -188,7 +225,6 @@
 <template>
     <v-app id="inspire" v-bind:class="classObject">
 
-    
     
     <!-- Block -->
     <!-- TODO : en faire une vue a part entiére -->
@@ -311,108 +347,120 @@
 
 <script>
 import { mapGetters } from "vuex";
-import $ from 'jquery'; // ** n'oubliez pas d'ajouter jquery au module (car ce n'est pas dèja le cas)
-// import Chart from 'chart.js';
+import $ from 'jquery';
+import Chart from 'chart.js';
 import Vue from 'vue'
 
 export default {
-  computed: {
-    ...mapGetters({
-      is_connected: "store_account/is_connected",
+    computed: {
+        ...mapGetters({
+            is_connected: "store_account/is_connected",
+        }),
+    },
+    data: () => ({
+        drawer: false, //devenu inutile (sauf pour l'adaptation mobil à faire)
+        openLeftBar: false,
+        closeLeftBarClass: "close-left",
+        items: [
+            { title: "Traductions", icon: "mdi-translate", to: "/" },
+            {
+                title: "Ajouter traduction",
+                icon: "mdi-pen-plus",
+                to: "/add-translation",
+            },
+            {
+                title: "Mots mêlés 🇾🇹",
+                icon: "mdi-all-inclusive",
+                to: "/word-search-yt?lang=mahorais",
+            },
+            {
+                title: "Mots mêlés 🇲🇬",
+                icon: "mdi-all-inclusive",
+                to: "/word-search-mg?lang=kibushi",
+            },
+            { title: "À Propos", icon: "mdi-arch", to: "/about" },
+        ],
+        items_account_menu_disconnected: [
+            { title: "Se connecter", icon: "mdi-login", to: "/login" },
+            { title: "S'inscrire", icon: "mdi-account-plus", to: "/registration" },
+        ],
+        items_account_menu_connected: [
+            { title: "Se déconnecter", icon: "mdi-logout", to: "/logout" },
+        ],
+        classObject: {
+            'login-page-active': false,
+        },
+        dataLogin: {
+            mode: 'login',
+        }
     }),
-  },
-  data: () => ({
-    drawer: false, //devenu inutile (sauf pour l'adaptation mobil à faire)
-    openLeftBar: false,
-    closeLeftBarClass: "close-left",
-    items: [
-      { title: "Traductions", icon: "mdi-translate", to: "/" },
-      {
-        title: "Ajouter traduction",
-        icon: "mdi-pen-plus",
-        to: "/add-translation",
-      },
-      {
-        title: "Mots mêlés 🇾🇹",
-        icon: "mdi-all-inclusive",
-        to: "/word-search-yt?lang=mahorais",
-      },
-      {
-        title: "Mots mêlés 🇲🇬",
-        icon: "mdi-all-inclusive",
-        to: "/word-search-mg?lang=kibushi",
-      },
-      { title: "À Propos", icon: "mdi-arch", to: "/about" },
-    ],
-    items_account_menu_disconnected: [
-      { title: "Se connecter", icon: "mdi-login", to: "/login" },
-      { title: "S'inscrire", icon: "mdi-account-plus", to: "/registration" },
-    ],
-    items_account_menu_connected: [
-      { title: "Se déconnecter", icon: "mdi-logout", to: "/logout" },
-    ],
-    classObject: {
-        active: false,
-        'text-danger': false,
-        'login-page-active': false,
-    }
-  }),
-  methods: {
-    disconnect: () => {
-      this.$store.dispatch("store_account/disconnect");
-    },
-    updateBar() {
-        if( ! this.openLeftBar ){
+    methods: {
+        disconnect: () => {
+            this.$store.dispatch("store_account/disconnect");
+        },
+        updateBar() {
+            // TODO :
+            if ( parseInt( $("body").css("width").replace("px", "") ) >= 640 ) {
+                this.drawer = false;
+                if ( ! this.openLeftBar ) {
 
-            $(".v-navigation-drawer__content").addClass("closed");
+                    $(".v-navigation-drawer__content").addClass("closed");
 
-            $("nav.v-navigation-drawer").css("position", "inherit");
-            $("nav.v-navigation-drawer").css("width", "57px");
-            $("nav.v-navigation-drawer").css("transform", "translateX(0%)");
+                    $("nav.v-navigation-drawer").css("position", "inherit");
+                    $("nav.v-navigation-drawer").css("width", "57px");
+                    $("nav.v-navigation-drawer").css("transform", "translateX(0%)");
 
-            $(".v-list-item__subtitle").css("visibility", "hidden");
-        }
-        else{
-            $("nav.v-navigation-drawer").css("position", "inherit");
-            $("nav.v-navigation-drawer").css("width", "256px");
-            $("nav.v-navigation-drawer").css("visibility", "visible");
-            $("nav.v-navigation-drawer").css("transform", "translateX(0%)");
+                    $(".v-list-item__subtitle").css("visibility", "hidden");
+                }
+                else {
+                    $("nav.v-navigation-drawer").css("position", "inherit");
+                    $("nav.v-navigation-drawer").css("width", "256px");
+                    $("nav.v-navigation-drawer").css("visibility", "visible");
+                    $("nav.v-navigation-drawer").css("transform", "translateX(0%)");
 
-            $(".v-navigation-drawer__content").removeClass("closed");
+                    $(".v-navigation-drawer__content").removeClass("closed");
 
-            $(".v-list-item__subtitle").css("visibility", "visible");
-        }
-        $("header.v-sheet").css("left", "0px");
-    },
-    closeLeftBar () {
-        // this.drawer = !this.drawer
-        this.openLeftBar = !this.openLeftBar;
-        this.updateBar(); 
-    },
-    init () {
-        var this_vue = this
-        $( document ).ready(function() {
-            console.log("ready", $('a[href="#/login"]'))
-            $('a[href="#/login"]').on("click", function () {
-                console.log("coooo")
-                $("nav.v-navigation-drawer").css("display", "none");
-                $("header").css("display", "none");
-            });
-
-            Vue.nextTick(() => {
-                console.log("ready", $('a[href="#/login"]'))
-                console.log("url", window.location.hash)
-            });
-
-            if (window.location.hash == "#/login" || window.location.hash == "#/registration") {
-                this_vue.classObject["login-page-active"] = true
+                    $(".v-list-item__subtitle").css("visibility", "visible");
+                }
+                $("header.v-sheet").css("left", "0px");
+                $("nav.v-navigation-drawer").css("visibility", "visible");
             }
             else {
-                this_vue.classObject["login-page-active"] = false;
+                $("nav.v-navigation-drawer").css("position", "");
+                $("nav.v-navigation-drawer").css("width", "");
+                $("nav.v-navigation-drawer").css("transform", "");
+                $("nav.v-navigation-drawer").css("visibility", "");
+                $("header.v-sheet").css("left", "");
+                $(".v-navigation-drawer__content").removeClass("closed");
+
+                $(".v-list-item__subtitle").css("visibility", "");
             }
-        });
-    }
-  },
+        },
+        closeLeftBar () {
+            this.drawer = !this.drawer
+            this.openLeftBar = !this.openLeftBar;
+            this.updateBar(); 
+        },
+        init () {
+            var this_vue = this
+            $( document ).ready(function() {
+                $('a[href="#/login"]').on("click", function () {
+                    $("nav.v-navigation-drawer").css("display", "none");
+                    $("header").css("display", "none");
+                });
+
+                Vue.nextTick(() => {
+                });
+
+                if (window.location.hash == "#/login" || window.location.hash == "#/registration") {
+                    this_vue.classObject["login-page-active"] = true
+                }
+                else {
+                    this_vue.classObject["login-page-active"] = false;
+                }
+            });
+        },
+    },
     mounted() {
         this.$store.dispatch("store_account/load_token");
         this.$store.dispatch("store_language/getListLanguages");
@@ -452,7 +500,16 @@ export default {
         this.cleanup = urlChange;
 
     },
-
+    watch: {
+        $route (to, from){
+            if (to.fullPath == "/login" || to.fullPath == "/registration") {
+                this.classObject["login-page-active"] = true
+            }
+            else {
+                this.classObject["login-page-active"] = false;
+            }
+        }
+    } 
 };
 
 

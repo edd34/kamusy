@@ -1,7 +1,7 @@
 <template>
   <v-container fill-height fluid>
     <v-row align="center" justify="center">
-      <v-col align="center"> Vous êtes déconnecté. </v-col>
+      <v-col align="center" class="h3"> Vous êtes déconnecté. </v-col>
     </v-row>
   </v-container>
 </template>

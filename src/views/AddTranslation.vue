@@ -1,7 +1,19 @@
 <template>
   <v-container class="bloc">
   <div class="">
-    
+    <v-alert
+    border="left"
+    color="yellow"
+    dense
+    dismissible
+    elevation="6"
+    text
+    type="warning"
+    v-if="!is_connected"
+    >
+      Vous devez vous connecter pour ajouter un mot.
+    </v-alert>
+
     <v-banner
       style="font-weight: bold;"
       class="white-font"
@@ -11,7 +23,6 @@
       vif
       v-if="!is_connected"
     >
-      Vous devez vous connecter pour ajouter un mot.
       <template v-slot:actions="{ dismiss }">
         <v-btn text color="primary" @click="dismiss"> Effacer </v-btn>
       </template>
@@ -29,6 +40,7 @@
             label="Choisissez"
             rounded
             filled
+            solo
           ></v-select>
         </v-col>
 
@@ -48,6 +60,7 @@
             label="Choisissez"
             rounded
             filled
+            solo
           ></v-select>
         </v-col>
       </v-row>

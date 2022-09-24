@@ -2,6 +2,9 @@
   .about {
     color: white;
     margin: 0 15px 0 15px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
   }
 </style>
 

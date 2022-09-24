@@ -13,7 +13,7 @@ export default {
   actions: {
     async getListLanguages({ commit }) {
       try {
-        const newListLanguage = await instance.get('/languages/')
+        const newListLanguage = await instance.get('/api/languages/')
         newListLanguage.data.sort((a, b) => a.id - b.id)
         await commit('updateListLanguage', newListLanguage.data)
       } catch (error) {
@@ -22,7 +22,7 @@ export default {
     },
     async addLanguage(state, payload) {
       try {
-        await instance.post('/languages/', payload)
+        await instance.post('/api/languages/', payload)
       } catch (error) {
         try {
           this.$store.dispatch('store_account/login_query_refresh')

@@ -16,14 +16,33 @@
 
   #bloc-form-connexion {
     z-index: 2;
-    padding: 0 150px 0 100px;
+    /*padding: 0 150px 0 100px;*/
     margin-top: 50vh;
     transform: translateY(-25vh);
     /*height: calc(100vh - 80px);*/
   }
 
-  #cont-form-connexion {
-    padding: 80px;
+  @media (min-width: 640px) {
+      #bloc-form-connexion {
+        padding: 0 150px 0 100px;
+      }
+  }
+  @media (max-width: 640px) {
+      #bloc-form-connexion {
+        padding: 50px; 
+      }
+  }
+
+  
+  @media (min-width: 640px) {
+      #cont-form-connexion {
+        padding: 80px;
+      }
+  }
+  @media (max-width: 640px) {
+      #cont-form-connexion {
+        padding: 5px;
+      }
   }
 
   .col-router {
@@ -48,7 +67,7 @@
   /* BACKGROUND FIGURE */
   #back {
     position: absolute; 
-    width:50%; 
+    /*width:50%; */
     height: 100%; 
     left: 0; 
     top: 0; 
@@ -56,9 +75,38 @@
     z-index: 0;
   }
 
+  @media (min-width: 640px) {
+      #back {
+        width:50%; 
+      }
+  }
+  @media (max-width: 640px) {
+      #back {
+        width:100%; 
+      }
+  }
+
+  
+
+  @media (min-width: 640px) {
+      .empty-col{
+        display: initial;
+      }
+  }
+  @media (max-width: 640px) {
+      .empty-col{
+        display: none;
+      }
+  }
+
   #inspire.login-page-active {
     overflow: hidden !important;
     background-image: url("https://images8.alphacoders.com/648/648922.jpg");
+    border-radius: 30px;
+    border: solid 15px black;
+    margin: 15px;
+    overflow: auto;
+    height: calc(100vh - 30px);
   }
 
 </style>
@@ -69,22 +117,28 @@
     <v-row style="">
       <v-col id="bloc-form-connexion">
     
-        <v-banner two-line transition="slide-y-transition" vif v-if="is_connected">
+        <v-banner two-line transition="slide-y-transition" v-if="is_connected">
           Vous êtes connecté.
           <template v-slot:actions="{ dismiss }">
             <v-btn text color="primary" @click="dismiss"> Effacer </v-btn>
           </template>
         </v-banner>
 
-        <h1 class="white-font" style="text-align: center;" v-if="!is_connected">Connectez-vous</h1>
-
         <v-container id="cont-form-connexion">
+
+          <h1 class="white--text text-center" v-if="!is_connected">Connectez-vous</h1>
+
+          <p class="text-center"> 
+            <a href="/#/registration">Créer un nouveau compte ?</a> 
+          </p>
+
           <form>
 
             <v-text-field
               v-model="email"
               counter
               label="Email"
+              :rules="emailRules"
               :disabled="is_connected"
               outlined
               required
@@ -103,16 +157,8 @@
               outlined
             ></v-text-field>
 
-            <v-checkbox
-              v-model="checkbox"
-              :error-messages="checkboxErrors"
-              label="Etes vous d'accord ?"
-              required
-              @change="$v.checkbox.$touch()"
-              @blur="$v.checkbox.$touch()"
-            ></v-checkbox>
-
-            <v-btn id="submit-connexion" class="mr-4" @click="submit" :disabled="is_connected">
+            
+            <v-btn id="submit-connexion" class="mr-4" color="primary" @click="submit" :disabled="is_connected">
               Se connecter
             </v-btn>
             <!-- <v-btn @click="clear" :disabled="is_connected"> Effacer </v-btn> -->
@@ -129,7 +175,7 @@
         </v-snackbar>
       </v-col>
 
-      <v-col style="">
+      <v-col class="empty-col" style="">
         <div>
           <!-- <div id="triangle-code" style="position: absolute; top:11px; left: 15px;"></div> -->
           <!-- <img style="max-width: 100%; border-radius: 20px;" src="https://mobimg.b-cdn.net/v3/fetch/87/87c93aa33275b4c8c73637ad3fbee836.jpeg?w=1470&r=0.5625"> -->
@@ -157,6 +203,10 @@ export default {
     password: "",
     snackbar: false,
     text: "",
+    emailRules: [
+      v => !!v || 'E-mail is required',
+      v => /.+@.+/.test(v) || 'E-mail must be valid',
+    ],
   }),
   computed: {
     ...mapGetters({
@@ -168,7 +218,7 @@ export default {
       const res = await this.$store.dispatch(
         "store_account/login_query_token",
         {
-          email: this.name,
+          email: this.email,
           password: this.password,
         }
       );
@@ -181,7 +231,7 @@ export default {
       }
     },
     clear() {
-      this.name = "";
+      this.email = "";
       this.password = "";
     },
   },

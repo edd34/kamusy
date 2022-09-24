@@ -43,12 +43,12 @@ const routes = [
   },
   {
     path: '/word-search-yt',
-    name: 'WordSearch',
+    name: 'WordSearch_YT',
     component: MixedWord,
   },
   {
     path: '/word-search-mg',
-    name: 'WordSearch',
+    name: 'WordSearch_MG',
     component: MixedWord,
   },
 ]

@@ -1,6 +1,7 @@
 import { instance } from '../service/axios.js'
 import { decode_jwt } from '../service/jwt.js'
 import { fromUnixTime } from 'date-fns'
+import router from '../router'
 
 export default {
   namespaced: true,
@@ -37,6 +38,9 @@ export default {
       localStorage.removeItem('token_refresh')
       state.is_connected = false
     },
+    check: (state, data) => {
+      console.log(data);
+    }
   },
   actions: {
     async login_query_token({ commit }, payload) {
@@ -46,6 +50,7 @@ export default {
           password: payload.password,
         })
         await commit('setToken', token.data)
+        router.replace('/');
         return true
       } catch (error) {
         await commit('resetToken')
@@ -67,6 +72,15 @@ export default {
     },
     async load_token({ commit }) {
       await commit('loadToken')
+    },
+    async create_token({ commit }, infoUser) {
+      try { 
+        const token = await instance.post('/api/sign-ign/', infoUser)
+        return true
+      } catch (error) {
+        //
+      }
+      return false
     },
   },
   getters: {

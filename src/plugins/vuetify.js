@@ -8,18 +8,17 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
 	theme: {
+		dark: true,
 	    themes: {
 		    light: {
-		        primary: colors.red.darken1, // #E53935
-		        secondary: colors.red.lighten4, // #FFCDD2
+		        primary: colors.blue.darken1, // #E53935
+		        secondary: colors.blue.lighten4, // #FFCDD2
 		        accent: colors.indigo.base, // #3F51B5
-		        font_bar_color: "white",
 		    },
 		    dark: {
-		    	primary: colors.red.darken1, // #E53935
-		        secondary: colors.red.lighten4, // #FFCDD2
+		    	primary: colors.blue.darken1, // #E53935
+		        secondary: colors.blue.lighten4, // #FFCDD2
 		        accent: colors.indigo.base, // #3F51B5
-		        font_bar_color: "white",
 		    }
 	    },
 	},
