@@ -126,10 +126,12 @@
 
         <v-container id="cont-form-connexion">
 
-          <h1 class="white--text text-center" v-if="!is_connected">Connectez-vous</h1>
+          <h1 class="white--text text-center" v-if="!is_connected && type_login=='login'">Connectez-vous</h1>
+          <h1 class="white--text text-center" v-if="!is_connected && type_login!='login'">Inscrivez-vous</h1>
 
           <p class="text-center"> 
-            <a href="/#/registration">Créer un nouveau compte ?</a> 
+            <a v-if="!is_connected && type_login=='login'" href="/#/registration">Créer un nouveau compte ?</a> 
+            <a v-if="!is_connected && type_login!='login'" href="/#/login">Connectez vous ?</a> 
           </p>
 
           <form>
@@ -157,9 +159,26 @@
               outlined
             ></v-text-field>
 
+            <v-text-field v-if="!is_connected && type_login!='login'"
+              v-model="password_comfirme"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              required
+              :type="show1 ? 'text' : 'password'"
+              name="input-10-1"
+              label="Confirmez le mot de passe"
+              counter
+              :disabled="is_connected"
+              @click:append="show1 = !show1"
+              outlined
+            ></v-text-field>
+
             
-            <v-btn id="submit-connexion" class="mr-4" color="primary" @click="submit" :disabled="is_connected">
+            <v-btn v-if="!is_connected && type_login=='login'" id="submit-connexion" class="mr-4" color="primary" @click="submit" :disabled="is_connected">
               Se connecter
+            </v-btn>
+
+            <v-btn v-if="!is_connected && type_login!='login'" id="submit-connexion" class="mr-4" color="primary" @click="submit" :disabled="is_connected">
+              S'inscrire'
             </v-btn>
             <!-- <v-btn @click="clear" :disabled="is_connected"> Effacer </v-btn> -->
           </form>
@@ -201,6 +220,7 @@ export default {
     email: "",
     show1: false,
     password: "",
+    password_comfirme: "",
     snackbar: false,
     text: "",
     emailRules: [
@@ -211,28 +231,67 @@ export default {
   computed: {
     ...mapGetters({
       is_connected: "store_account/is_connected",
+      type_login: "store_account/type_login",
     }),
   },
   methods: {
     async submit() {
-      const res = await this.$store.dispatch(
-        "store_account/login_query_token",
-        {
-          email: this.email,
-          password: this.password,
+      if ( this.type_login == "login" ) {
+        const res = await this.$store.dispatch(
+          "store_account/login_query_token",
+          {
+            email: this.email,
+            password: this.password,
+          }
+        );
+        this.snackbar = true;
+        if (res) {
+          this.text = "Connexion réussie.";
+          this.clear();
+        } else {
+          this.text = "Identifiant ou mot de passe incorrect.";
         }
-      );
-      this.snackbar = true;
-      if (res) {
-        this.text = "Connexion réussie.";
-        this.clear();
-      } else {
-        this.text = "Identifiant ou mot de passe incorrect.";
+      }
+      else {
+        if (this.password != "" && this.password_comfirme == this.password && this.email != "") {
+          const res = await this.$store.dispatch("store_account/create_token", {
+            email: this.email,
+            password: this.password,
+          });
+
+          this.snackbar = true;
+
+          if ( res ) {
+            this.text = "Inscription validé ! Vous allez être redirigez";
+            this.clear();
+            var this_vue = this;
+            setTimeout(function () {
+              this_vue.snackbar = false;
+              this_vue.$router.push("/login");
+            }, 3000);
+          }
+          else {
+            this.text = "Une erreur s'est produite lors de l'inscription";
+            setTimeout(function () {
+              this.snackbar = false;
+            }, 5000);
+          }
+
+          
+        }
+        else{
+          this.text = "Remplissez correctement tous les champs";
+          this.snackbar = true;
+          setTimeout(function () {
+            this.snackbar = false;
+          }, 5000);
+        }
       }
     },
     clear() {
       this.email = "";
       this.password = "";
+      this.password_comfirme = "";
     },
   },
 };

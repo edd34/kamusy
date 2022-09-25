@@ -11,6 +11,7 @@ export default {
       refresh: null,
     },
     is_connected: false,
+    type_login: 'login',
   },
   mutations: {
     setToken: (state, token) => {
@@ -40,6 +41,13 @@ export default {
     },
     check: (state, data) => {
       console.log(data);
+    },
+    switchTypeLogin: (state, data) => {
+      console.log("dattttttttttaaa", data);
+      if(data == "login")
+        state.type_login = "login";
+      else
+        state.type_login = "registration";
     }
   },
   actions: {
@@ -82,6 +90,10 @@ export default {
       }
       return false
     },
+    async switchLogin({commit}, data) {
+      console.log("datpppppppppppaaa", data);
+      await commit('switchTypeLogin', data.type);
+    },
   },
   getters: {
     exp: (state) => {
@@ -103,6 +115,7 @@ export default {
       return exp_date
     },
     is_connected: (state) => state.is_connected,
+    type_login: (state) => state.type_login,
     access_token: (state) => state.token.access,
     refresh_token: (state) => state.token.refresh,
   },

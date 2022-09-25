@@ -355,6 +355,7 @@ export default {
     computed: {
         ...mapGetters({
             is_connected: "store_account/is_connected",
+            type_login: "store_account/type_login"
         }),
     },
     data: () => ({
@@ -390,9 +391,6 @@ export default {
         classObject: {
             'login-page-active': false,
         },
-        dataLogin: {
-            mode: 'login',
-        }
     }),
     methods: {
         disconnect: () => {
@@ -480,14 +478,17 @@ export default {
             this_vue.init();
             $("#btn-profile").on("click", function(){
                 $('a[href="#/login"], a[href="#/registration"]').on("click", function () {
-                    this_vue.classObject["login-page-active"] = true
+                    this_vue.classObject["login-page-active"] = true;
                 });
-            })
+            });
+
+            this_vue.$store.dispatch("store_account/switchLogin", {type: window.location.hash.replace('#/', '')});
         });
 
         const urlChange = () => {
             if (window.location.hash == "#/login" || window.location.hash == "#/registration") {
-                this_vue.classObject["login-page-active"] = true
+                this_vue.classObject["login-page-active"] = true;
+                this_vue.$store.dispatch("store_account/switchLogin", {type: window.location.hash.replace('#/', '')});
             }
             else {
                 this_vue.classObject["login-page-active"] = false;
@@ -495,15 +496,12 @@ export default {
         };
 
         window.addEventListener('popstate', urlChange);
-
-        // Useful for cleanup when component is destroyed
-        this.cleanup = urlChange;
-
     },
     watch: {
         $route (to, from){
             if (to.fullPath == "/login" || to.fullPath == "/registration") {
                 this.classObject["login-page-active"] = true
+                this.$store.dispatch("store_account/switchLogin", {type: to.fullPath.replace('/', '')});
             }
             else {
                 this.classObject["login-page-active"] = false;

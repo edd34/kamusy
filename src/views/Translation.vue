@@ -319,14 +319,14 @@ export default {
     result_entries() {
         if (this.translation_result) {
             return this.translation_result
-            .map(
-                (currentValue, index) =>
-                (index + 1).toString() +
-                ". " +
-                currentValue.word_destination_name +
-                "\n"
-                )
-            .join("");
+                .map(
+                    (currentValue, index) =>
+                    (index + 1).toString() +
+                    ". " +
+                    currentValue.word_destination_name +
+                    "\n"
+                    )
+                .join("");
         } else {
             return
         }
@@ -343,6 +343,7 @@ export default {
       descriptionLimit: 60,
       entries: [],
       search: null,
+      words_pretraduction: [],
       chartID2: "line-chart2",
       dico_synonyme : [ //Exemple
           'plaisir',
@@ -408,6 +409,7 @@ export default {
             // not words typed inside traduction field
             this.translation_result = "";
             this.entries = [];
+
             return "";
         } else {
             this.isWordLoading = true;
@@ -430,7 +432,7 @@ export default {
             
             fetch(
                 process.env.VUE_APP_API_URL +
-                "/get-translation-multi/" +
+                "/api/get-translation-multi/" +
                 id_words +
                 "/" +
                 this.language_src +
@@ -458,10 +460,32 @@ export default {
                 this.dico_synonyme = array;
                 this.isWordLoading = false;
             });
-
-
-
         }
+    },
+    searchPred(val) {
+        if (val === null || val == "") return;
+
+        fetch(
+            process.env.VUE_APP_API_URL +
+                "/api/words_multi/" +
+                val.toLowerCase().replaceAll(" ", "_") +
+                "/" +
+                this.language_src +
+                "/" +
+                this.language_dst +
+                "/"
+        )
+        .then((res) => res.json())
+        .then((res) => {
+            this.translation_result = res;
+            if (res.length == 0) {
+                // TODO translation do not exist
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        .finally(() => (console.log("ok")));
     },
     do_perfect_square () {
         // To make perfect square
@@ -493,6 +517,19 @@ export default {
     // TODO : in mode v2 get word with editing textarea
     $("#input-7-1").on("click", function(e) {
         console.log(e.currentTarget.selectionStart)
+    });
+
+    // TODO : traduction auto de mot partiel
+    // console.log($("#auto-trad")[0]._value);
+
+    //Pretraduction
+    $("#auto-trad").on("keyup", function () {
+        if ( this.model == "" || this.model == null ) {
+            // Pretraduction
+            console.log("pretraduction:", $("#auto-trad")[0]._value);
+            if ( $("#auto-trad")[0]._value !=  "" )
+                view.searchPred($("#auto-trad")[0]._value);
+        }
     })
 
   },
@@ -512,7 +549,7 @@ export default {
       // fetch('https://api.publicapis.org/entries')
       fetch(
         process.env.VUE_APP_API_URL +
-          "/find-words-2/" +
+          "/api/find-words-2/" +
           val.toLowerCase() +
           "/" +
           this.language_src +
