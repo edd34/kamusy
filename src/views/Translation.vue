@@ -220,6 +220,30 @@
                             ></v-textarea>
                         </v-container>
 
+                        <div class="words-unknown" style="width:100%;">
+                            <v-card-text>
+                                <span class="subheading white--text subtitle-1">Mots inconnue</span>
+                                <v-divider class="mx-1"></v-divider>
+                                <div class="pa-2">
+                                    <v-chip-group
+                                      active-class="accent--text"
+                                      column
+                                    >
+                                        <v-chip
+                                        v-for="word in words_unknown"
+                                        :key="word"
+                                        color="blue"
+                                        @mouseover="addword()"
+                                        class="v-chip-unknown"
+                                        >
+                                            {{ word }}
+                                        </v-chip>
+                                    </v-chip-group>
+                                
+                                </div>
+                            </v-card-text>
+                        </div>
+
                         <!-- Display description -->
                         <!-- TODO : implement description -->
                         <!-- <v-container mb-6>
@@ -318,15 +342,22 @@ export default {
     },
     result_entries() {
         if (this.translation_result) {
+            var view = this;
+            this.words_unknown = [];
             return this.translation_result
                 .map(
-                    (currentValue, index) =>
-                    (index + 1).toString() +
-                    ". " +
-                    currentValue.word_destination_name +
-                    "\n"
-                    )
-                .join("");
+                    function(currentValue, index) { 
+
+                        if( currentValue.word_destination_name == "unknown" ){
+                            view.words_unknown.push(currentValue.word_source_name);
+                            return currentValue.word_source_name + " : inconnue\n";
+                        }
+                        else{
+                            return (index + 1).toString() + ". " + currentValue.word_destination_name + "\n";
+                        }
+
+                     }
+                ).join("");
         } else {
             return
         }
@@ -344,6 +375,7 @@ export default {
       entries: [],
       search: null,
       words_pretraduction: [],
+      words_unknown: [],
       chartID2: "line-chart2",
       dico_synonyme : [ //Exemple
           'plaisir',
@@ -443,9 +475,6 @@ export default {
             .then((res) => res.json())
             .then((res) => {
                 this.translation_result = res;
-                if (res.length == 0) {
-                    // TODO translation do not exist
-                }
             })
             .catch((err) => {
                 console.log("Error get_translated_word() :", err);
@@ -462,7 +491,8 @@ export default {
             });
         }
     },
-    searchPred(val) {
+    searchPredictedWords(val) {
+
         if (val === null || val == "") return;
 
         fetch(
@@ -478,18 +508,14 @@ export default {
         .then((res) => res.json())
         .then((res) => {
             this.translation_result = res;
-            if (res.length == 0) {
-                // TODO translation do not exist
-            }
         })
         .catch((err) => {
             console.log(err);
         })
-        .finally(() => (console.log("ok")));
     },
     do_perfect_square () {
         // To make perfect square
-        if( parseInt($(".col-b > .container").css("width").replace("px", "")) > 1000 ) {
+        if( $(".col-b > .container").length && parseInt($(".col-b > .container").css("width").replace("px", "")) > 1000 ) {
             // Traduction
             var width = parseInt($(".bloc-1").css("width").replace("px", ""));
             $(".bloc-1").css("height", width + "px");
@@ -502,6 +528,13 @@ export default {
             $(".dico").css("height", (cont_heigth - cont_words_height - 10) + "px");
         }
     },
+    addword() {
+        var view = this;
+        $(".v-chip-unknown, .v-chip-unknown span").on("click", function () {
+            view.$store.dispatch("store_translation/setWordSource", $(this).text().replaceAll(" ", ""));
+            view.$router.push("/add-translation");
+        });
+    },
   },
   mounted() {
     var view = this;
@@ -511,27 +544,25 @@ export default {
     });
 
     $(".btn-word").on("click", function(e) {
-        console.log($(this).attr("data-word"), $(this).attr("data-id"))
+        // console.log($(this).attr("data-word"), $(this).attr("data-id"))
     })
 
     // TODO : in mode v2 get word with editing textarea
     $("#input-7-1").on("click", function(e) {
-        console.log(e.currentTarget.selectionStart)
+        // console.log(e.currentTarget.selectionStart)
     });
-
-    // TODO : traduction auto de mot partiel
-    // console.log($("#auto-trad")[0]._value);
 
     //Pretraduction
     $("#auto-trad").on("keyup", function () {
         if ( this.model == "" || this.model == null ) {
             // Pretraduction
-            console.log("pretraduction:", $("#auto-trad")[0]._value);
-            if ( $("#auto-trad")[0]._value !=  "" )
-                view.searchPred($("#auto-trad")[0]._value);
+            // console.log("prediction", $("#auto-trad")[0]._value, ( $("#auto-trad")[0]._value !=  "" && $("#auto-trad")[0]._value != null ))
+            if ( $("#auto-trad")[0]._value !=  "" && $("#auto-trad")[0]._value != null )
+                view.searchPredictedWords($("#auto-trad")[0]._value);
+            else
+                view.translation_result = "";
         }
-    })
-
+    });
   },
   watch: {
     search(val) {

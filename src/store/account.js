@@ -39,11 +39,7 @@ export default {
       localStorage.removeItem('token_refresh')
       state.is_connected = false
     },
-    check: (state, data) => {
-      console.log(data);
-    },
-    switchTypeLogin: (state, data) => {
-      console.log("dattttttttttaaa", data);
+    selectLoginMode: (state, data) => {
       if(data == "login")
         state.type_login = "login";
       else
@@ -90,9 +86,8 @@ export default {
       }
       return false
     },
-    async switchLogin({commit}, data) {
-      console.log("datpppppppppppaaa", data);
-      await commit('switchTypeLogin', data.type);
+    loginMode({commit}, mode) {
+      commit('selectLoginMode', mode);
     },
   },
   getters: {

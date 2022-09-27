@@ -123,8 +123,6 @@
       </template>
     </v-snackbar>
 
-  
-
   </div>
   </v-container>
 </template>
@@ -148,13 +146,20 @@ export default {
     items() {
       return this.entries;
     },
+    word_source: {
+      get() {
+        return this.$store.getters["store_translation/word_source"];
+      },
+      set(value) {
+        return this.$store.dispatch("store_translation/setWordSource", value);
+      },
+    },
   },
   data() {
     return {
       v0: true,
       isLoading: false,
       add_translation_loading: false,
-      word_source: null,
       word_destination: null,
       language_src: 2,
       language_dst: 1,
@@ -194,7 +199,7 @@ export default {
         },
       };
       try {
-        const res = await axios.post("/add-translation/", data, config);
+        const res = await axios.post("api/add-translation/", data, config);
         this.snackbar = true;
         this.text = "Mot correctement ajouté.";
       } catch (error) {

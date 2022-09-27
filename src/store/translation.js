@@ -4,11 +4,15 @@ export default {
   namespaced: true,
   state: {
     listTranslations: [],
+    word_source: null,
   },
   mutations: {
     updateListTranslations: (state, newListTranslation) => {
       state.listTranslations = newListTranslation
     },
+    SET_WORD_SOURCE: (state, word) => {
+      state.word_source = word;
+    }
   },
   actions: {
     async getListTranslations({ commit }) {
@@ -36,6 +40,11 @@ export default {
         console.log(error)
       }
     },
+    async setWordSource({ commit }, word) {
+      commit("SET_WORD_SOURCE", word);
+    },
   },
-  getters: {},
+  getters: {
+    word_source: (state) => state.word_source,
+  },
 }

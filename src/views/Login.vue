@@ -268,7 +268,7 @@ export default {
             setTimeout(function () {
               this_vue.snackbar = false;
               this_vue.$router.push("/login");
-            }, 3000);
+            }, 2000);
           }
           else {
             this.text = "Une erreur s'est produite lors de l'inscription";

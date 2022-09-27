@@ -482,13 +482,13 @@ export default {
                 });
             });
 
-            this_vue.$store.dispatch("store_account/switchLogin", {type: window.location.hash.replace('#/', '')});
+            this_vue.$store.dispatch("store_account/loginMode", window.location.hash.replace('#/', ''));
         });
 
         const urlChange = () => {
             if (window.location.hash == "#/login" || window.location.hash == "#/registration") {
                 this_vue.classObject["login-page-active"] = true;
-                this_vue.$store.dispatch("store_account/switchLogin", {type: window.location.hash.replace('#/', '')});
+                this_vue.$store.dispatch("store_account/loginMode", window.location.hash.replace('#/', ''));
             }
             else {
                 this_vue.classObject["login-page-active"] = false;
@@ -501,7 +501,7 @@ export default {
         $route (to, from){
             if (to.fullPath == "/login" || to.fullPath == "/registration") {
                 this.classObject["login-page-active"] = true
-                this.$store.dispatch("store_account/switchLogin", {type: to.fullPath.replace('/', '')});
+                this.$store.dispatch("store_account/loginMode", to.fullPath.replace('/', ''));
             }
             else {
                 this.classObject["login-page-active"] = false;
